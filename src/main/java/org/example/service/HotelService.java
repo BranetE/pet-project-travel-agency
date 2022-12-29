@@ -5,15 +5,15 @@ import org.example.model.Hotel;
 import java.util.List;
 
 public interface HotelService {
-    void create(Hotel hotel);
+    void createHotel(Hotel hotel);
 
-    void update(Hotel hotel);
+    void updateHotel(Hotel hotel);
 
-    Hotel read(long id);
+    Hotel getHotel(long id);
 
-    void delete(long id);
+    void deleteHotel(long id);
 
-    List<Hotel> findAll();
+    List<Hotel> getAllHotels();
 
-    List<Hotel> findAllByCountry(String country);
+    List<Hotel> getAllHotelsByCountry(String country);
 }

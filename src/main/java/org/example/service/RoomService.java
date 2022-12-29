@@ -6,15 +6,15 @@ import org.example.model.Room;
 import java.util.List;
 
 public interface RoomService {
-    void create(Room room);
+    void createRoom(Room room);
 
-    void update(Room room);
+    void updateRoom(Room room);
 
-    Room read(long id);
+    Room getRoom(long id);
 
-    void delete(long id);
+    void deleteRoom(long id);
 
-    List<Room> findAll();
+    List<Room> getAllRooms();
 
-    List<Room> findAllAvailable(Hotel hotel);
+    List<Room> getAllAvailableRooms(Hotel hotel);
 }

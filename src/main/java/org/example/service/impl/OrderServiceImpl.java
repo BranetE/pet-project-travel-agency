@@ -16,32 +16,32 @@ public class OrderServiceImpl implements OrderService {
     OrderDAO orderDAO;
 
     @Override
-    public void create(Order order) {
-        orderDAO.createOrder(order);
+    public void createOrder(Order order) {
+        orderDAO.create(order);
     }
 
     @Override
-    public void update(Order order) {
-        orderDAO.updateOrder(order);
+    public void updateOrder(Order order) {
+        orderDAO.update(order);
     }
 
     @Override
-    public Order read(long id) {
-        return orderDAO.getOrder(id);
+    public Order getOrder(long id) {
+        return orderDAO.read(id);
     }
 
     @Override
-    public void delete(long id) {
-        orderDAO.deleteOrder(id);
+    public void deleteOrder(long id) {
+        orderDAO.delete(id);
     }
 
     @Override
-    public List<Order> findAll() {
-        return orderDAO.getOrders();
+    public List<Order> getAllOrders() {
+        return orderDAO.findAll();
     }
 
     @Override
-    public List<Order> findAllByUser(User user) {
-        return orderDAO.getOrdersByUser(user);
+    public List<Order> getAllOrdersByUser(User user) {
+        return orderDAO.findAllByUser(user);
     }
 }

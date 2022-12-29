@@ -15,32 +15,32 @@ public class HotelServiceImpl implements HotelService {
     HotelDAO hotelDAO;
 
     @Override
-    public void create(Hotel hotel) {
+    public void createHotel(Hotel hotel) {
         hotelDAO.createHotel(hotel);
     }
 
     @Override
-    public void update(Hotel hotel) {
+    public void updateHotel(Hotel hotel) {
         hotelDAO.updateHotel(hotel);
     }
 
     @Override
-    public Hotel read(long id) {
+    public Hotel getHotel(long id) {
         return hotelDAO.getHotel(id);
     }
 
     @Override
-    public void delete(long id) {
+    public void deleteHotel(long id) {
         hotelDAO.deleteHotel(id);
     }
 
     @Override
-    public List<Hotel> findAll() {
-        return hotelDAO.getHotels();
+    public List<Hotel> getAllHotels() {
+        return hotelDAO.findAll();
     }
 
     @Override
-    public List<Hotel> findAllByCountry(String country) {
-        return hotelDAO.getHotelsByCountry(country);
+    public List<Hotel> getAllHotelsByCountry(String country) {
+        return hotelDAO.findAllByCountry(country);
     }
 }

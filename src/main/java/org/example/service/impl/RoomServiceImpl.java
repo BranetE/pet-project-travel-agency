@@ -16,32 +16,32 @@ public class RoomServiceImpl implements RoomService {
     RoomDAO roomDAO;
 
     @Override
-    public void create(Room room) {
-        roomDAO.createRoom(room);
+    public void createRoom(Room room) {
+        roomDAO.create(room);
     }
 
     @Override
-    public void update(Room room) {
-        roomDAO.updateRoom(room);
+    public void updateRoom(Room room) {
+        roomDAO.update(room);
     }
 
     @Override
-    public Room read(long id) {
-        return roomDAO.getRoom(id);
+    public Room getRoom(long id) {
+        return roomDAO.read(id);
     }
 
     @Override
-    public void delete(long id) {
-        roomDAO.deleteRoom(id);
+    public void deleteRoom(long id) {
+        roomDAO.delete(id);
     }
 
     @Override
-    public List<Room> findAll() {
+    public List<Room> getAllRooms() {
         return roomDAO.getRooms();
     }
 
     @Override
-    public List<Room> findAllAvailable(Hotel hotel) {
-        return roomDAO.getAvailableRooms(hotel);
+    public List<Room> getAllAvailableRooms(Hotel hotel) {
+        return roomDAO.findAvailable(hotel);
     }
 }

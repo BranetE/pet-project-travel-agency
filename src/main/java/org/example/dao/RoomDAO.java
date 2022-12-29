@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface RoomDAO {
 
-    void createRoom(Room room);
+    void create(Room room);
 
-    void updateRoom(Room room);
+    void update(Room room);
 
-    Room getRoom(long id);
+    Room read(long id);
 
-    void deleteRoom(long id);
+    void delete(long id);
 
-    List<Room> getRooms();
+    List<Room> findAll();
 
-    List<Room> getAvailableRooms(Hotel hotel);
+    List<Room> findAvailable(Hotel hotel);
 }

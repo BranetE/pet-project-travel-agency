@@ -50,7 +50,7 @@ public class HotelDAOImpl implements HotelDAO {
     }
 
     @Override
-    public List<Hotel> getHotels() {
+    public List<Hotel> findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         List<Hotel> hotels = session.createQuery("from Hotel").list();
@@ -59,7 +59,7 @@ public class HotelDAOImpl implements HotelDAO {
     }
 
     @Override
-    public List<Hotel> getHotelsByCountry(String country) {
+    public List<Hotel> findAllByCountry(String country) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         List<Hotel> hotels = session.createQuery("from Hotel h where h.country=country").list();

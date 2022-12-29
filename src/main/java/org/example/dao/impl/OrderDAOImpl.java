@@ -17,7 +17,7 @@ public class OrderDAOImpl implements OrderDAO {
     SessionFactory sessionFactory;
 
     @Override
-    public void createOrder(Order order) {
+    public void create(Order order) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.save(order);
@@ -25,7 +25,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public void updateOrder(Order order) {
+    public void update(Order order) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.update(order);
@@ -33,7 +33,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public Order getOrder(long id) {
+    public Order read(long id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         Order order = session.get(Order.class, id);
@@ -42,7 +42,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public void deleteOrder(long id) {
+    public void delete(long id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         Order order = session.get(Order.class, id);
@@ -51,7 +51,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public List<Order> getOrders() {
+    public List<Order> findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         List<Order> orders = session.createQuery("from Order").list();
@@ -60,7 +60,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public List<Order> getOrdersByUser(User user) {
+    public List<Order> findAllByUser(User user) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         List<Order> orders = session.createQuery("from Order o where o.user=user").list();

@@ -6,15 +6,15 @@ import org.example.model.User;
 import java.util.List;
 
 public interface OrderService {
-    void create(Order order);
+    void createOrder(Order order);
 
-    void update(Order order);
+    void updateOrder(Order order);
 
-    Order read(long id);
+    Order getOrder(long id);
 
-    void delete(long id);
+    void deleteOrder(long id);
 
-    List<Order> findAll();
+    List<Order> getAllOrders();
 
-    List<Order> findAllByUser(User user);
+    List<Order> getAllOrdersByUser(User user);
 }

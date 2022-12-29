@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface OrderDAO {
 
-    void createOrder(Order order);
+    void create(Order order);
 
-    void updateOrder(Order order);
+    void update(Order order);
 
-    Order getOrder(long id);
+    Order read(long id);
 
-    void deleteOrder(long id);
+    void delete(long id);
 
-    List<Order> getOrders();
+    List<Order> findAll();
 
-    List<Order> getOrdersByUser(User user);
+    List<Order> findAllByUser(User user);
 }

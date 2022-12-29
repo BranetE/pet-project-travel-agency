@@ -16,7 +16,7 @@ public class UserDAOImpl implements UserDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public void createUser(User user) {
+    public void create(User user) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.save(user);
@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUser(User user) {
+    public void update(User user) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.update(user);
@@ -32,7 +32,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getUer(long id) {
+    public User read(long id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         User user = session.get(User.class, id);
@@ -41,7 +41,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void deleteUser(long id) {
+    public void delete(long id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         User user = session.get(User.class, id);
@@ -50,7 +50,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         List<User> users = session.createQuery("from User").list();

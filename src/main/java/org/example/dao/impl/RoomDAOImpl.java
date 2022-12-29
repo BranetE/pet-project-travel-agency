@@ -6,7 +6,6 @@ import org.example.model.Room;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public class RoomDAOImpl implements RoomDAO {
     SessionFactory sessionFactory;
 
     @Override
-    public void createRoom(Room room) {
+    public void create(Room room) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.save(room);
@@ -26,7 +25,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public void updateRoom(Room room) {
+    public void update(Room room) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.update(room);
@@ -34,7 +33,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public Room getRoom(long id) {
+    public Room read(long id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         Room room = session.get(Room.class, id);
@@ -43,7 +42,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public void deleteRoom(long id) {
+    public void delete(long id) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         Room room = session.get(Room.class, id);
@@ -52,7 +51,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public List<Room> getRooms() {
+    public List<Room> findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         List<Room> rooms = session.createQuery("from Room").list();
@@ -61,7 +60,7 @@ public class RoomDAOImpl implements RoomDAO {
     }
 
     @Override
-    public List<Room> getAvailableRooms(Hotel hotel) {
+    public List<Room> findAvailable(Hotel hotel) {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         List<Room> rooms = session.createQuery("from Room r where r.hotel=hotel and r not in (select o.rooms from Order o)").list();
