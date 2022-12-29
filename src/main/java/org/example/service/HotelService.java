@@ -13,7 +13,7 @@ public interface HotelService {
 
     void delete(long id);
 
-    List<Hotel> readAll();
+    List<Hotel> findAll();
 
-    List<Hotel> readAllByCountry(String country);
+    List<Hotel> findAllByCountry(String country);
 }

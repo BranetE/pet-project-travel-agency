@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.model.Hotel;
 import org.example.model.Room;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface RoomService {
 
     void delete(long id);
 
-    List<Room> readAll();
+    List<Room> findAll();
 
-    List<Room> readAllAvailable();
+    List<Room> findAllAvailable(Hotel hotel);
 }

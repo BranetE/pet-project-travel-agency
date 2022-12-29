@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.model.Order;
+import org.example.model.User;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface OrderService {
 
     void delete(long id);
 
-    List<Order> readAll();
+    List<Order> findAll();
 
-    List<Order> readAllByUser();
+    List<Order> findAllByUser(User user);
 }

@@ -14,5 +14,5 @@ public interface UserService {
 
     void delete(long id);
 
-    List<User> readAll();
+    List<User> findAll();
 }
