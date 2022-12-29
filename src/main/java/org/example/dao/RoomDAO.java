@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import org.example.model.Hotel;
 import org.example.model.Room;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface RoomDAO {
 
     List<Room> getRooms();
 
-    List<Room> getAvailableRooms(long hotelId);
+    List<Room> getAvailableRooms(Hotel hotel);
 }
