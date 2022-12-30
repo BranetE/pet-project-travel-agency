@@ -1,5 +1,7 @@
 package org.example.exception;
 
+import org.dom4j.rule.Mode;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -8,8 +10,12 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseStatus(value= HttpStatus.NOT_FOUND)
     public ModelAndView error404(Exception ex) {
-
-        return new ModelAndView("error.html");
+        ModelAndView modelAndView = new ModelAndView("error.html");
+        modelAndView.addObject("statusCode", HttpStatus.NOT_FOUND);
+        modelAndView.addObject("message", ex.getMessage());
+        modelAndView.addObject("stackTrace", ex.getStackTrace().toString());
+        return modelAndView;
     }
 }
