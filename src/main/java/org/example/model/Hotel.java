@@ -1,6 +1,9 @@
 package org.example.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "hotels")
@@ -11,11 +14,16 @@ public class Hotel {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, unique = true)
+    @NotBlank(message = "name is required")
     private String name;
 
-    @Column(name = "country")
+    @Column(name = "country", nullable = false)
+    @NotBlank(message = "country is required")
     private String country;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<Room> rooms;
 
     public Hotel(){}
 
