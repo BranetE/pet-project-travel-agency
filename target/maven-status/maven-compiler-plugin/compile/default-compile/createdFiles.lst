@@ -1,4 +1,0 @@
-org\example\App.class
-org\example\config\Config.class
-org\example\config\DispatcherServletInitializer.class
-org\example\controller\HelloController.class

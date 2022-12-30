@@ -2,6 +2,8 @@ package org.example.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.ServletRegistration;
+
 public class DispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -21,5 +23,10 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
         return new String[] {
                 "/"
         };
+    }
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        boolean done = registration.setInitParameter("throwExceptionIfNoHandlerFound", "true"); // -> true
+        if(!done) throw new RuntimeException();
     }
 }
