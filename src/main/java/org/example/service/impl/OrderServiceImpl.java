@@ -1,7 +1,9 @@
 package org.example.service.impl;
 
 import org.example.dao.OrderDAO;
+import org.example.exception.RoomIsNotAvailableException;
 import org.example.model.Order;
+import org.example.model.Room;
 import org.example.model.User;
 import org.example.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void createOrder(Order order) {
-        orderDAO.create(order);
+        Room room = order.getRoom();
+
+        if(checkIfBusy(order,room))
+        {
+            throw new RoomIsNotAvailableException("Room is not available for these dates", room);
+        }else {
+            orderDAO.create(order);
+        }
     }
 
     @Override
@@ -43,5 +52,22 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getAllOrdersByUser(User user) {
         return orderDAO.findAllByUser(user);
+    }
+
+    private boolean checkIfBusy(Order order, Room room){
+
+        List<Order> orders = getAllOrders();
+        orders.stream().filter(o -> o.getRoom().equals(room)).toList();
+
+        for (Order o:orders) {
+            if(order.getStartTime().isAfter(o.getStartTime()) &&
+                    order.getStartTime().isBefore(o.getEndTime()) &&
+                    order.getEndTime().isAfter(o.getStartTime()) &&
+                    order.getEndTime().isBefore(o.getEndTime()))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

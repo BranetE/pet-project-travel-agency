@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -16,54 +17,48 @@ public class HotelDAOImpl implements HotelDAO {
     SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public void createHotel(Hotel hotel) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         session.save(hotel);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public void updateHotel(Hotel hotel) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         session.update(hotel);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public Hotel getHotel(long id) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         Hotel hotel = session.get(Hotel.class, id);
-        session.getTransaction().commit();
         return hotel;
     }
 
     @Override
+    @Transactional
     public void deleteHotel(long id) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         Hotel hotel = session.get(Hotel.class, id);
         session.delete(hotel);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public List<Hotel> findAll() {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         List<Hotel> hotels = session.createQuery("from Hotel").list();
-        session.getTransaction().commit();
         return hotels;
     }
 
     @Override
+    @Transactional
     public List<Hotel> findAllByCountry(String country) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         List<Hotel> hotels = session.createQuery("from Hotel h where h.country=country").list();
-        session.getTransaction().commit();
         return hotels;
     }
 }

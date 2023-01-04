@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -17,53 +18,47 @@ public class RoomDAOImpl implements RoomDAO {
     SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public void create(Room room) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         session.save(room);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public void update(Room room) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         session.update(room);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public Room read(long id) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         Room room = session.get(Room.class, id);
-        session.getTransaction().commit();
         return room;
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         Room room = session.get(Room.class, id);
         session.delete(room);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public List<Room> findAll() {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         List<Room> rooms = session.createQuery("from Room").list();
-        session.getTransaction().commit();
         return rooms;
     }
 
     @Override
+    @Transactional
     public List<Room> findAvailable(Hotel hotel) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         List<Room> rooms = session.createQuery("from Room r where r.hotel=hotel and r not in (select o.rooms from Order o)").list();
-        session.getTransaction().commit();
         return rooms;    }
 }

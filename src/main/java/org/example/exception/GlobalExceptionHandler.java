@@ -18,4 +18,11 @@ public class GlobalExceptionHandler {
         modelAndView.addObject("stackTrace", ex.getStackTrace().toString());
         return modelAndView;
     }
+
+    @ExceptionHandler(RoomIsNotAvailableException.class)
+    public ModelAndView roomIsBusy(RoomIsNotAvailableException ex){
+        ModelAndView modelAndView = new ModelAndView("/orders/book/" + ex.getRoom().getId());
+        modelAndView.addObject("message", ex.getMessage());
+        return modelAndView;
+    }
 }

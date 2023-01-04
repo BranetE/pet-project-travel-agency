@@ -2,12 +2,15 @@ package org.example.dao.impl;
 
 import org.example.dao.OrderDAO;
 import org.example.model.Order;
+import org.example.model.Room;
 import org.example.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -17,54 +20,55 @@ public class OrderDAOImpl implements OrderDAO {
     SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public void create(Order order) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         session.save(order);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public void update(Order order) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         session.update(order);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public Order read(long id) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         Order order = session.get(Order.class, id);
-        session.getTransaction().commit();
         return order;
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         Order order = session.get(Order.class, id);
         session.delete(order);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public List<Order> findAll() {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         List<Order> orders = session.createQuery("from Order").list();
-        session.getTransaction().commit();
         return orders;
     }
 
     @Override
+    @Transactional
     public List<Order> findAllByUser(User user) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         List<Order> orders = session.createQuery("from Order o where o.user=user").list();
-        session.getTransaction().commit();
         return orders;
     }
+
+
+//    public List<LocalDate> empty(Room room) {
+//        Session session = sessionFactory.getCurrentSession();
+//        List<LocalDate> dates = session.createQuery("select startTime, endTime from Order o where o.room = room").list();
+//        return dates;
+//    }
 }

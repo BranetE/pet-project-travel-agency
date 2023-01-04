@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
@@ -30,18 +30,19 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "order")
-    private List<Room> rooms;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 
     public Order() {
     }
 
-    public Order(long id, LocalDate startTime, LocalDate endTime, User user, List<Room> rooms) {
+    public Order(long id, LocalDate startTime, LocalDate endTime, User user, Room room) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
         this.user = user;
-        this.rooms = rooms;
+        this.room = room;
     }
 
     public long getId() {
@@ -76,11 +77,24 @@ public class Order {
         this.user = user;
     }
 
-    public List<Room> getRooms() {
-        return rooms;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id && Objects.equals(startTime, order.startTime) && Objects.equals(endTime, order.endTime) && Objects.equals(user, order.user) && Objects.equals(room, order.room);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, startTime, endTime, user, room);
     }
 }

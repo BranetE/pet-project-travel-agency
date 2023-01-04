@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -16,45 +17,40 @@ public class UserDAOImpl implements UserDAO {
     private SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public void create(User user) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         session.save(user);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public void update(User user) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         session.update(user);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public User read(long id) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         User user = session.get(User.class, id);
-        session.getTransaction().commit();
         return user;
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         User user = session.get(User.class, id);
         session.delete(user);
-        session.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public List<User> findAll() {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
         List<User> users = session.createQuery("from User").list();
-        session.getTransaction().commit();
         return users;
     }
 }
