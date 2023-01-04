@@ -25,9 +25,6 @@ public class OrderController {
     @Autowired
     RoomService roomService;
 
-    @Autowired
-    UserDetailsService userDetails;
-
     @GetMapping("/{order_id}")
     public String showOrder(@PathVariable("order_id") long orderId, Model model){
         Order order = orderService.getOrder(orderId);
