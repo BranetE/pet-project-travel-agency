@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Order</title>
+</head>
+<body>
+    <form th:action="@{|/book/${room_id}|}" th:object="${order}" method="post">
+        Check in date:
+        <input type="date" th:field="*{startTime}"/>
+        <small th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"/>
+
+        Check out date:
+        <input type="date" th:field="*{endTime}"/>
+        <small th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}"/>
+
+        <br>
+
+        <input type="submit" value="Book"/>
+        <input type="reset" value="Clear"/>
+    </form>
+</body>
+</html>

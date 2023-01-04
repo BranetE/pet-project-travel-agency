@@ -57,8 +57,8 @@ public class RoomDAOImpl implements RoomDAO {
 
     @Override
     @Transactional
-    public List<Room> findAvailable(Hotel hotel) {
+    public List<Room> findAllByHotel(Hotel hotel) {
         Session session = sessionFactory.getCurrentSession();
-        List<Room> rooms = session.createQuery("from Room r where r.hotel=hotel and r not in (select o.rooms from Order o)").list();
+        List<Room> rooms = session.createQuery("from Room r where r.hotel=hotel").list();
         return rooms;    }
 }
