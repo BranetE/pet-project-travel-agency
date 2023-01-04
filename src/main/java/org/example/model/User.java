@@ -3,7 +3,9 @@ package org.example.model;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -13,9 +15,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    public Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id"))
+    public Set<Role> roles = new HashSet<>();
 
     @Column(name = "last_name", nullable = false)
     @NotBlank(message = "last name is required")
@@ -30,7 +34,7 @@ public class User {
 
     @Column(name = "phone", nullable = false, unique = true)
     @NotBlank(message = "telephone is required")
-    public long phone;
+    public String phone;
 
     @Column(name = "password", nullable = false)
     @NotBlank(message = "password is required")
@@ -42,9 +46,10 @@ public class User {
     public User() {
     }
 
-    public User(long id, Role role, String lastName, String firstName, String email, long phone, String password, List<Order> orders) {
+    public User(long id, Set<Role> roles, String lastName, String firstName, String email,
+                String phone, String password, List<Order> orders) {
         this.id = id;
-        this.role = role;
+        this.roles = roles;
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
@@ -59,14 +64,6 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 
     public String getLastName() {
@@ -93,11 +90,11 @@ public class User {
         this.email = email;
     }
 
-    public long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -107,6 +104,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public List<Order> getOrders() {

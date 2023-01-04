@@ -10,9 +10,16 @@ public interface UserDAO {
 
     void update(User user);
 
-    User read(long id);
+    User findUserById(long id);
+
+    User findUserByEmail(String email);
 
     void delete(long id);
 
     List<User> findAll();
+
+    Boolean existsByEmail(String email);
+
+    Boolean existsByPhone(String phone);
+
 }

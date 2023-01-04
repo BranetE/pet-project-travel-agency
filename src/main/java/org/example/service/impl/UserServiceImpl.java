@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(long id) {
-        return userDAO.read(id);
+        return userDAO.findUserById(id);
     }
 
     @Override
@@ -37,5 +37,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userDAO.findAll();
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return userDAO.existsByEmail(email);
     }
 }
