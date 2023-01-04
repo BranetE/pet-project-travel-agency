@@ -1,10 +1,11 @@
 package org.example.controller;
 
+import com.mchange.util.AlreadyExistsException;
 import org.example.dao.RoleDAO;
+import org.example.dao.UserDAO;
 import org.example.model.ERole;
 import org.example.model.Role;
 import org.example.model.User;
-import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,13 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Controller
 public class AuthController {
     @Autowired
-    UserService userService;
+    UserDAO userDAO;
     @Autowired
     RoleDAO roleDAO;
     @GetMapping("/register")
@@ -29,9 +29,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(User user){
-        if(userService.existsByEmail(user.getEmail())){
-            return "User with same email already exists";
+    public String register(User user) throws AlreadyExistsException {
+        if(userDAO.existsByEmail(user.getEmail())){
+            throw new AlreadyExistsException("User already exists with this email ");
+        }
+        if(userDAO.existsByPhone(user.getEmail())){
+            throw new AlreadyExistsException("User already exists with this email ");
         }
 
         Role role = roleDAO.findByName(ERole.USER);
@@ -44,12 +47,12 @@ public class AuthController {
         roles.add(role);
         user.setRoles(roles);
 
-
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        userService.createUser(user);
-        return "index";
+        userDAO.create(user);
+
+        return "redirect:/";
     }
 
 }
