@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "hotels")
@@ -55,5 +56,18 @@ public class Hotel {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Hotel hotel = (Hotel) o;
+        return id == hotel.id && Objects.equals(name, hotel.name) && Objects.equals(country, hotel.country) && Objects.equals(rooms, hotel.rooms);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, country, rooms);
     }
 }
