@@ -5,6 +5,15 @@
     <title>Title</title>
 </head>
 <body>
+<form th:action="@{|/room/${room_id}/update}" th:object="${room}" method="post">
+    Number:
+    <input type="number" th:field="*{room.number}"/>
+    <small th:if="${#fields.hasErrors('number')}" th:errors="*{room.number}"/>
 
+    <br>
+
+    <input type="submit" value="Update"/>
+    <input type="reset" value="Clear"/>
+</form>
 </body>
 </html>

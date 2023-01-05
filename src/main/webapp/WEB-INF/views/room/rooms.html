@@ -6,6 +6,24 @@
     <title>Rooms</title>
 </head>
 <body>
+<table>
+    <tr>
+        <th>Number</th>
+        <th>Hotel</th>
+        <th>Book</th>
+        <th colspan="2">Operations</th>
+    </tr>
+    <tr th:each="room, iStat: ${rooms}">
+        <td th:text="${room.number}"/>
+        <td th:text="${room.hotel.name}"/>
+        <td>
+            <a th:href="@{|/hotel/${hotel.id}/update|}">Edit</a>
+        </td>
+        <td>
+            <a th:href="@{|/hotel/${hotel.id}/delete|}">Delete</a>
+        </td>
+    </tr>
+</table>
 
 </body>
 </html>

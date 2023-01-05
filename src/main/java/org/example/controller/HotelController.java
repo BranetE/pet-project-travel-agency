@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/hotel")
@@ -18,7 +19,9 @@ public class HotelController {
     HotelService hotelService;
 
     @GetMapping("/all")
-    public String getAll(){
+    public String getAll(Model model){
+        List<Hotel> hotels = hotelService.getAllHotels();
+        model.addAttribute("hotels", hotels);
         return "hotel/hotels";
     }
 
