@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: fragment_head(pageTitle = 'Admin panel')">
+</head>
+<body>
+<div th:replace="fragments :: fragment_navbar"/>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div th:replace="fragments :: fragment_admin_menu"/>
+    </div>
+</div>
+</body>
+</html>
