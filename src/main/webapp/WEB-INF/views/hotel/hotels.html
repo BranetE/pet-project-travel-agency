@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Hotels</title>
+<head th:replace="fragments :: fragment_head(pageTitle = 'Hotels')">
 </head>
 <body>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Country</th>
-            <th colspan="2">Operations</th>
-        </tr>
-        <tr th:each="hotel, iStat: ${hotels}">
-            <td th:text="${hotel.name}"/>
-            <td th:text="${hotel.country}"/>
-            <td>
-                <a th:href="@{|/hotel/${hotel.id}/update|}">Edit</a>
-            </td>
-            <td>
-                <a th:href="@{|/hotel/${hotel.id}/delete|}">Delete</a>
-            </td>
-        </tr>
-    </table>
+<div th:replace="fragments :: fragment_navbar"/>
+<div class="container text-center" style="width: 80%">
+    <div>
+        <h1>List of Hotels</h1>
+    </div>
+
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Country</th>
+                <th colspan="2">Operations</th>
+            </tr>
+            <tr th:each="hotel, iStat: ${hotels}">
+                <td th:text="${hotel.name}"/>
+                <td th:text="${hotel.country}"/>
+                <td>
+                    <a class="btn btn-info" th:href="@{|/hotel/${hotel.id}/update|}">Edit</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" th:href="@{|/hotel/${hotel.id}/delete|}">Delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 </html>
