@@ -1,6 +1,8 @@
 package org.example.controller;
 
+import org.example.model.Hotel;
 import org.example.model.User;
+import org.example.service.HotelService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +17,24 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private HotelService hotelService;
     @GetMapping
-    public String index(Model model){
+    public String index(){
+        return "admin/admin";
+    }
+
+    @GetMapping("/users")
+    public String getUsers(Model model){
         List<User> listUsers = userService.getAllUsers();
         model.addAttribute("listUsers", listUsers);
-        return "admin/admin";
+        return "admin/admin_users";
+    }
+    @GetMapping("/hotels")
+    public String getHotels(Model model){
+        List<Hotel> listHotels = hotelService.getAllHotels();
+        model.addAttribute("listHotels", listHotels);
+        model.addAttribute("hotel", new Hotel());
+        return "admin/admin_hotels";
     }
 }

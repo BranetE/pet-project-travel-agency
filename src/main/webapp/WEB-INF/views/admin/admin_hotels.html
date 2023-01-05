@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: fragment_head(pageTitle = 'Admin panel')">
+</head>
+<body>
+<div th:replace="fragments :: fragment_navbar"/>
+<div class="container-fluid">
+  <div class="row flex-nowrap">
+    <div th:replace="fragments :: fragment_admin_menu"/>
+    <div class="container text-center" style="width: 80%">
+      <div>
+        <h1>List of Hotels</h1>
+        <h2>Add new hotel
+          <button type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#HotelModal">Add</button>
+        </h2>
+      </div>
+
+      <div>
+        <table class="table table-striped table-bordered">
+          <thead class="thead-dark">
+          <tr>
+            <th>Hotel ID</th>
+            <th>Name</th>
+            <th>Country</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="hotel: ${listHotels}">
+            <td th:text="${hotel.getId()}">User ID</td>
+            <td th:text="${hotel.getName()}">Name</td>
+            <td th:text="${hotel.getCountry()}">Country</td>
+            <td>
+              <a class="btn btn-info">Update</a>
+              <a class="btn btn-danger" style="margin-left: 10px"
+                      th:href="@{'/hotel/' + ${hotel.getId()} + '/delete'}">Delete</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="HotelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add hotel</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/hotel/add}" th:object="${hotel}" method="post">
+          <div class="mb-3">
+            <label for="hotel-name" class="col-form-label">Name:</label>
+            <input type="text" th:field="*{name}" class="form-control" id="hotel-name" required>
+          </div>
+          <div class="mb-3">
+            <label for="hotel-country" class="col-form-label">Country:</label>
+            <input type="text" th:field="*{country}" class="form-control" id="hotel-country" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add Hotel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
