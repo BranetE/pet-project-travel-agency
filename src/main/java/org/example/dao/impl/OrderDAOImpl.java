@@ -65,10 +65,4 @@ public class OrderDAOImpl implements OrderDAO {
         return orders;
     }
 
-
-//    public List<LocalDate> empty(Room room) {
-//        Session session = sessionFactory.getCurrentSession();
-//        List<LocalDate> dates = session.createQuery("select startTime, endTime from Order o where o.room = room").list();
-//        return dates;
-//    }
 }
