@@ -16,5 +16,5 @@ public interface RoomService {
 
     List<Room> getAllRooms();
 
-    List<Room> getAllAvailableRooms(Hotel hotel);
+    List<Room> getAllRoomsByHotel(Hotel hotel);
 }

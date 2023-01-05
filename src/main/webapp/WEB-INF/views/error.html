@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Error 404</title>
+    <title>An error occured</title>
 </head>
 <body>
-    <b>Page not found</b>
+
+    <b><p th:align="center" th:text="${statusCode}"></p></b>
+
+    <p th:align="center" th:text="${message}"/>
+    <p th:align="center" th:text="${stackTrace}"/>
 </body>
 </html>

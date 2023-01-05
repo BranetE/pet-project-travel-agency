@@ -41,7 +41,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> getAllAvailableRooms(Hotel hotel) {
-        return roomDAO.findAvailable(hotel);
+    public List<Room> getAllRoomsByHotel(Hotel hotel) {
+        return roomDAO.findAllByHotel(hotel);
     }
 }

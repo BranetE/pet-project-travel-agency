@@ -17,5 +17,5 @@ public interface RoomDAO {
 
     List<Room> findAll();
 
-    List<Room> findAvailable(Hotel hotel);
+    List<Room> findAllByHotel(Hotel hotel);
 }
