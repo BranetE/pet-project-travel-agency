@@ -19,6 +19,10 @@ public class Room {
     @NotBlank(message = "number is required")
     private long number;
 
+    @Column(name = "capacity")
+    @NotBlank(message = "capacity is required")
+    private int capacity;
+
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
@@ -29,11 +33,12 @@ public class Room {
     public Room() {
     }
 
-    public Room(long id, long number, Hotel hotel, List<Order> order) {
+    public Room(long id, long number, int capacity, Hotel hotel, List<Order> orders) {
         this.id = id;
         this.number = number;
+        this.capacity = capacity;
         this.hotel = hotel;
-        this.orders = order;
+        this.orders = orders;
     }
 
     public long getId() {
@@ -52,6 +57,14 @@ public class Room {
         this.number = number;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
     public Hotel getHotel() {
         return hotel;
     }
@@ -60,11 +73,11 @@ public class Room {
         this.hotel = hotel;
     }
 
-    public List<Order> getOrder() {
+    public List<Order> getOrders() {
         return orders;
     }
 
-    public void setOrder(List<Order> orders) {
+    public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 
@@ -73,11 +86,11 @@ public class Room {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
-        return id == room.id && number == room.number && Objects.equals(hotel, room.hotel) && Objects.equals(orders, room.orders);
+        return id == room.id && number == room.number && capacity == room.capacity && Objects.equals(hotel, room.hotel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, number, hotel, orders);
+        return Objects.hash(id, number, capacity, hotel);
     }
 }
