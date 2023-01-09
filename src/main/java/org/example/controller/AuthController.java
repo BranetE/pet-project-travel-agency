@@ -33,8 +33,8 @@ public class AuthController {
         if(userDAO.existsByEmail(user.getEmail())){
             throw new AlreadyExistsException("User already exists with this email ");
         }
-        if(userDAO.existsByPhone(user.getEmail())){
-            throw new AlreadyExistsException("User already exists with this email ");
+        if(userDAO.existsByPhone(user.getPhone())){
+            throw new AlreadyExistsException("User already exists with this phone ");
         }
 
         Role role = roleDAO.findByName(ERole.USER);
@@ -52,7 +52,7 @@ public class AuthController {
         user.setPassword(encodedPassword);
         userDAO.create(user);
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
 }
