@@ -3,6 +3,7 @@ package org.example.model;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,14 +17,14 @@ public class Room {
     private long id;
 
     @Column(name = "number", nullable = false)
-    @NotBlank(message = "number is required")
+    @NotNull(message = "number is required")
     private long number;
 
     @Column(name = "capacity")
-    @NotBlank(message = "capacity is required")
+    @NotNull(message = "capacity is required")
     private int capacity;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 

@@ -11,6 +11,8 @@
     <input type="number" th:field="*{number}"/>
     <small th:if="${#fields.hasErrors('number')}" th:errors="*{number}"/>
 
+    <input type="number" th:field="*{capacity}"/>
+    <small th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"/>
     <br>
 
     <input type="submit" value="Add"/>

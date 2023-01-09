@@ -6,19 +6,23 @@
     <title>Update hotel info</title>
 </head>
 <body>
-    <form th:action="@{|/hotel/{hotel_id}/update}" th:object="${hotel}" method="post">
+    <form th:action="@{/hotel/*{id}/update}" th:object="${hotel}" method="post">
         Name:
-        <input type="text" th:field="*{name}"/>
+        <input type="text" th:field="*{name}" th:value="*{name}" id="name"/>
         <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
 
         Country:
-        <input type="text" th:field="*{country}"/>
+        <input type="text" th:field="*{country}" th:value="*{country}" id="country"/>
         <small th:if="${#fields.hasErrors('country')}" th:errors="*{country}"/>
 
         <br>
 
-        <input type="submit" value="Add"/>
+        <input type="hidden" name="id" th:value="*{id}">
+
+        <input type="submit" value="Update"/>
         <input type="reset" value="Clear"/>
+
+
     </form>
 </body>
 </html>

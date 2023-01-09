@@ -6,7 +6,7 @@
     <title>Create Order</title>
 </head>
 <body>
-    <form th:action="@{|/book/${room_id}|}" th:object="${order}" method="post">
+    <form th:action="@{|/order/book/${room_id}|}" th:object="${order}" method="post">
         Check in date:
         <input type="date" th:field="*{startTime}"/>
         <small th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"/>
