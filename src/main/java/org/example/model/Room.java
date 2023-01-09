@@ -26,11 +26,6 @@ public class Room {
     private int capacity;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
-
-    @NotBlank(message = "capacity is required")
-    private int capacity;
-
-    @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
