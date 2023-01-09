@@ -9,13 +9,18 @@
 <table>
     <tr>
         <th>Number</th>
+        <th>Capacity</th>
         <th>Hotel</th>
         <th>Book</th>
         <th colspan="2">Operations</th>
     </tr>
     <tr th:each="room, iStat: ${rooms}">
         <td th:text="${room.number}"/>
+        <td th:text="${room.capacity}"/>
         <td th:text="${room.hotel.name}"/>
+        <td>
+            <a th:href="@{|/order/book/${room.id}|}">Book</a>
+        </td>
         <td>
             <a th:href="@{|/hotel/${hotel.id}/update|}">Edit</a>
         </td>
