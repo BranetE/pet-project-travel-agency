@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: fragment_head(pageTitle = 'Hotels')">
 </head>
@@ -16,19 +16,22 @@
             <tr>
                 <th>Name</th>
                 <th>Country</th>
-                <th colspan="2">Operations</th>
+                <th sec:authorize="hasAuthority('ADMIN')" colspan="2" >Operations</th>
             </tr>
             <tr th:each="hotel, iStat: ${hotels}">
-                <td th:text="${hotel.name}"/>
-                <td th:text="${hotel.country}"/>
                 <td>
+                    <a th:href="@{|/room/all/${hotel.getId()}|}" th:text="${hotel.name}"/>
+                </td>
+                <td th:text="${hotel.country}"/>
+                <td sec:authorize="hasAuthority('ADMIN')">
                     <a class="btn btn-info" th:href="@{|/hotel/${hotel.id}/update|}">Edit</a>
                 </td>
-                <td>
-                    <a class="btn btn-danger" th:href="@{|/hotel/${hotel.id}/delete|}">Delete</a>
+                <td sec:authorize="hasAuthority('ADMIN')">
+                    <a class="btn btn-danger"  th:href="@{|/hotel/${hotel.id}/delete|}">Delete</a>
                 </td>
             </tr>
         </table>
+        <a class="btn btn-info" sec:authorize="hasAuthority('ADMIN')" th:href="@{|/hotel/add|}">Add</a>
     </div>
 </div>
 </body>

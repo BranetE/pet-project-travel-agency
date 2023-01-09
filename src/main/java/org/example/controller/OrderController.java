@@ -44,7 +44,6 @@ public class OrderController {
     @GetMapping("/book/{room_id}")
     public String createOrder(@PathVariable("room_id") long roomId, Model model){
         Order order = new Order();
-        order.setRoom(roomService.getRoom(roomId));
         model.addAttribute("order", order);
         return "order/create";
     }
@@ -54,6 +53,7 @@ public class OrderController {
         if(bindingResult.hasErrors()){
             return "order/create";
         }
+        order.setRoom(roomService.getRoom(roomId));
         orderService.createOrder(order);
         return "redirect:/order/"+order.getId();
     }

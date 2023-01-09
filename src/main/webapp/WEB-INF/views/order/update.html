@@ -6,7 +6,7 @@
     <title>Update Order</title>
 </head>
 <body>
-<form th:action="@{|/${order_id}/update|}" th:object="${order}" method="post">
+<form th:action="@{|/${order.id}/update|}" th:object="${order}" method="post">
     Check in date:
     <input type="date" th:field="*{startTime}"/>
     <small th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"/>
@@ -14,6 +14,10 @@
     Check out date:
     <input type="date" th:field="*{endTime}"/>
     <small th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}"/>
+
+    <input type="hidden" name="id" th:value="*{id}">
+    <input type="hidden" name="room" th:value="*{room}">
+    <input type="hidden" name="user" th:value="*{user}">
 
     <br>
 

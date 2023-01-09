@@ -23,7 +23,7 @@ public class Hotel {
     @NotBlank(message = "country is required")
     private String country;
 
-    @OneToMany(mappedBy = "hotel")
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private List<Room> rooms;
 
     public Hotel(){}

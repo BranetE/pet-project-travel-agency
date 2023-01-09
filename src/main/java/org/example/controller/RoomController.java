@@ -28,15 +28,14 @@ public class RoomController {
         Hotel hotel = hotelService.getHotel(hotelId);
         List<Room> rooms = roomService.getAllRoomsByHotel(hotel);
         model.addAttribute("rooms", rooms);
+        model.addAttribute("hotel_id", hotelId);
         return "room/rooms";
     }
 
     @GetMapping("/add/{hotel_id}")
     public String createRoom(@PathVariable("hotel_id") long hotelId, Model model)
     {
-        Hotel hotel = hotelService.getHotel(hotelId);
         Room room = new Room();
-        room.setHotel(hotel);
         model.addAttribute("room", room);
         return "room/create";
 
@@ -48,6 +47,8 @@ public class RoomController {
         if(bindingResult.hasErrors()){
             return "room/create";
         }
+        Hotel hotel = hotelService.getHotel(hotelId);
+        room.setHotel(hotel);
         roomService.createRoom(room);
         return "redirect:/room/all/" + hotelId;
     }
