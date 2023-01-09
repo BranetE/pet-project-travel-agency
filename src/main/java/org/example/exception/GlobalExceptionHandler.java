@@ -1,5 +1,6 @@
 package org.example.exception;
 
+import com.mchange.util.AlreadyExistsException;
 import org.dom4j.rule.Mode;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RoomIsNotAvailableException.class)
     public ModelAndView roomIsBusy(RoomIsNotAvailableException ex){
         ModelAndView modelAndView = new ModelAndView("/orders/book/" + ex.getRoom().getId());
+        modelAndView.addObject("message", ex.getMessage());
+        return modelAndView;
+    }
+
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ModelAndView userAlreadyExists(AlreadyExistsException ex){
+        ModelAndView modelAndView = new ModelAndView("error");
         modelAndView.addObject("message", ex.getMessage());
         return modelAndView;
     }

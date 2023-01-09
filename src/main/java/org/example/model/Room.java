@@ -21,10 +21,16 @@ public class Room {
     private long number;
 
     @Column(name = "capacity")
+
     @NotNull(message = "capacity is required")
     private int capacity;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
+
+    @NotBlank(message = "capacity is required")
+    private int capacity;
+
+    @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
