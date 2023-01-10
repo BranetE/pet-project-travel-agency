@@ -7,6 +7,7 @@ import org.example.service.OrderService;
 import org.example.service.RoomService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,7 +32,8 @@ public class OrderController {
     UserService userService;
 
     @GetMapping("/{order_id}")
-    public String showOrder(@PathVariable("order_id") long orderId, Model model){
+    @PreAuthorize("@orderServiceImpl.getOrder(#orderId).user.id == #userDetails.id")
+    public String showOrder(@PathVariable("order_id") long orderId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
         Order order = orderService.getOrder(orderId);
         model.addAttribute("order", order);
         return "order/info";
@@ -69,7 +71,8 @@ public class OrderController {
     }
 
     @GetMapping("/{order_id}/update")
-    public String updateOrder(@PathVariable("order_id") long orderId, Model model)
+    @PreAuthorize("hasAuthority('ADMIN') or @orderServiceImpl.getOrder(#orderId).user.id == #userDetails.id")
+    public String updateOrder(@PathVariable("order_id") long orderId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         Order order = orderService.getOrder(orderId);
         List<String[]> busyDates = orderService.getAllBusyDates(order.getRoom().getId());
@@ -92,6 +95,7 @@ public class OrderController {
     }
 
     @GetMapping("/{order_id}/delete")
+    @PreAuthorize("hasAuthority('ADMIN') or @orderServiceImpl.getOrder(#orderId).user.id == #userDetails.id")
     public String deleteOrder(@PathVariable("order_id") long orderId,
                               @AuthenticationPrincipal UserDetailsImpl userDetails){
         orderService.deleteOrder(orderId);

@@ -5,6 +5,7 @@ import org.example.model.Room;
 import org.example.service.HotelService;
 import org.example.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +34,7 @@ public class RoomController {
     }
 
     @GetMapping("/add/{hotel_id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String createRoom(@PathVariable("hotel_id") long hotelId, Model model)
     {
         Room room = new Room();
@@ -53,6 +55,7 @@ public class RoomController {
         return "redirect:/room/all/" + hotelId;
     }
     @GetMapping("/{room_id}/update")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String updateRoom(@PathVariable("room_id") long roomId, Model model)
     {
         Room room = roomService.getRoom(roomId);
@@ -76,6 +79,7 @@ public class RoomController {
     }
 
     @GetMapping("/{room_id}/delete")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteRoom(@PathVariable("room_id") long roomId){
         Room room = roomService.getRoom(roomId);
         long hotelId = room.getHotel().getId();
