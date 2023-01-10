@@ -1,12 +1,14 @@
 package org.example.controller;
 
+import org.example.dto.impl.UserDetailsImpl;
 import org.example.model.Order;
 import org.example.model.User;
 import org.example.service.OrderService;
 import org.example.service.RoomService;
+import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +26,9 @@ public class OrderController {
 
     @Autowired
     RoomService roomService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/{order_id}")
     public String showOrder(@PathVariable("order_id") long orderId, Model model){
@@ -44,16 +49,21 @@ public class OrderController {
     @GetMapping("/book/{room_id}")
     public String createOrder(@PathVariable("room_id") long roomId, Model model){
         Order order = new Order();
+        List<String[]> busyDates = orderService.getAllBusyDates(roomId);
         model.addAttribute("order", order);
+        model.addAttribute("busyDates", busyDates);
         return "order/create";
     }
 
     @PostMapping("/book/{room_id}")
-    public String createOrder(@PathVariable("room_id") long roomId, @Valid @ModelAttribute("order") Order order, BindingResult bindingResult){
+    public String createOrder(@PathVariable("room_id") long roomId,
+                              @Valid @ModelAttribute("order") Order order, BindingResult bindingResult,
+                              @AuthenticationPrincipal UserDetailsImpl userDetails){
         if(bindingResult.hasErrors()){
             return "order/create";
         }
         order.setRoom(roomService.getRoom(roomId));
+        order.setUser(userService.getUser(userDetails.getId()));
         orderService.createOrder(order);
         return "redirect:/order/"+order.getId();
     }
@@ -67,7 +77,7 @@ public class OrderController {
     }
 
     @PostMapping("/{order_id}/update")
-    public String updateOrder(@PathVariable("order_id") long orderId, @Valid @ModelAttribute("order") Order order, BindingResult bindingResult)
+    public String updateOrder(@Valid @ModelAttribute("order") Order order, BindingResult bindingResult)
     {
         if(bindingResult.hasErrors()){
             return "order/update";

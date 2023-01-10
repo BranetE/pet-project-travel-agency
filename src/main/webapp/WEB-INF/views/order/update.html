@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Update Order</title>
-</head>
+<head th:replace="fragments :: fragment_head(pageTitle = 'Edit Order')">
 <body>
-<form th:action="@{|/${order.id}/update|}" th:object="${order}" method="post">
-    Check in date:
-    <input type="date" th:field="*{startTime}"/>
-    <small th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"/>
+<div th:replace="fragments :: fragment_navbar"/>
+<div class="container text-center" style="width: 80%">
+    <form th:action="@{|/${order.id}/update|}" th:object="${order}" method="post">
+        <div>
+            <h1>Edit your order</h1>
+        </div>
+        <div class="form-group row">
+            <label class="col-4 col-form-label">Check in date:</label>
+            <div class="col-8">
+                <input type="date" class="form-control" th:field="*{startTime}"/>
+                <small th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"/>
+            </div>
+        </div>
 
-    Check out date:
-    <input type="date" th:field="*{endTime}"/>
-    <small th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}"/>
+        <div class="form-group row">
+            <label class="col-4 col-form-label">Check out date:</label>
+            <div class="col-8">
+                <input type="date" class="form-control" th:field="*{endTime}"/>
+                <small th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}"/>
+            </div>
+        </div>
 
-    <input type="hidden" name="id" th:value="*{id}">
-    <input type="hidden" name="room" th:value="*{room}">
-    <input type="hidden" name="user" th:value="*{user}">
+        <input type="hidden" name="id" th:value="*{id}">
+        <input type="hidden" name="room" th:value="*{room}">
+        <input type="hidden" name="user" th:value="*{user}">
 
-    <br>
+        <br>
 
-    <input type="submit" value="Edit"/>
-    <input type="reset" value="Clear"/>
-</form>
+        <input type="submit" class="btn btn-primary" value="Edit"/>
+        <input type="reset" class="btn btn-primary" value="Clear"/>
+    </form>
+</div>
 </body>
 </html>

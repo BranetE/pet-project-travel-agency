@@ -1,9 +1,11 @@
 package org.example.model;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -17,13 +19,15 @@ public class Order {
     private long id;
 
     @Column(name = "start_time", nullable = false)
-    @Future
-    @NotBlank(message = "start time is required")
+//    @Future
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull(message = "start time is required")
     private LocalDate startTime;
 
     @Column(name = "end_time", nullable = false)
-    @Future
-    @NotBlank(message = "end time is required")
+//    @Future
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @NotNull(message = "end time is required")
     private LocalDate endTime;
 
     @ManyToOne

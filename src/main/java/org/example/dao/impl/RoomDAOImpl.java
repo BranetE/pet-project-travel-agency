@@ -59,6 +59,8 @@ public class RoomDAOImpl implements RoomDAO {
     @Transactional
     public List<Room> findAllByHotel(Hotel hotel) {
         Session session = sessionFactory.getCurrentSession();
-        List<Room> rooms = session.createQuery("from Room r where r.hotel=hotel").list();
+        List<Room> rooms = session.createQuery("select r from Room r where r.hotel=:hotel")
+                .setParameter("hotel", hotel)
+                .list();
         return rooms;    }
 }

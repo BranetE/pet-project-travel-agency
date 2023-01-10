@@ -1,25 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: fragment_head(pageTitle = 'Update Room')">
 <body>
-<form th:action="@{|/room/${room.id}/update}" th:object="${room}" method="post">
-    Number:
-    <input type="number" th:field="*{room.number}"/>
-    <small th:if="${#fields.hasErrors('number')}" th:errors="*{room.number}"/>
+<div th:replace="fragments :: fragment_navbar"/>
+<div class="container text-center">
+    <div>
+        <h1>Update Room</h1>
+    </div>
+    <form th:action="@{|/room/*{id}/update|}" th:object="${room}" method="post">
 
-    <input type="hidden" name="id" th:value="*{room.id}">
+        <div class="form-group row">
+            <label class="col-4 col-form-label">Number: </label>
+            <div class="col-8">
+                <input type="number" th:field="*{number}" class="form-control" required maxlength="2"/>
+                <small th:if="${#fields.hasErrors('number')}" th:errors="*{number}"/>
+            </div>
+        </div>
 
-    <input type="hidden" name="id" th:value="*{room.id}">
-    <input type="hidden" name="hotel" th:value="*{room.hotel}">
-    <input type="hidden" name="capacity" th:value="*{room.capacity}">
+        <div class="form-group row">
+            <label class="col-4 col-form-label">Number: </label>
+            <div class="col-8">
+                <input type="number" th:field="*{capacity}" class="form-control" required maxlength="2"/>
+                <small th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"/>
+            </div>
+        </div>
 
-    <br>
+        <input type="hidden" name="id" th:value="*{id}">
+<!--        <input type="hidden" name="capacity" th:value="*{capacity}">-->
+        <input type="hidden" name="hotel" th:value="*{hotel}">
 
-    <input type="submit" value="Edit"/>
-    <input type="reset" value="Clear"/>
-</form>
+        <br>
+
+        <input type="submit" class="btn btn-primary" value="Edit"/>
+    </form>
+</div>
 </body>
 </html>

@@ -62,8 +62,13 @@ public class RoomController {
     }
 
     @PostMapping("/{room_id}/update")
-    public String updateRoom(@PathVariable("hotel_id") long hotelId, @Valid @ModelAttribute("room") Room room, BindingResult bindingResult)
+    public String updateRoom(@PathVariable("room_id") long roomId, @Valid @ModelAttribute("room") Room room, BindingResult bindingResult)
     {
+        Room oldRoom = roomService.getRoom(roomId);
+        room.setHotel(oldRoom.getHotel());
+//        room.setOrders(oldRoom.getOrders());
+        System.out.println(room.toString());
+        long hotelId = room.getHotel().getId();
         if(bindingResult.hasErrors()){
             return "room/update";
         }
@@ -76,6 +81,6 @@ public class RoomController {
         Room room = roomService.getRoom(roomId);
         long hotelId = room.getHotel().getId();
         roomService.deleteRoom(roomId);
-        return "redirect:/room/" + hotelId;
+        return "redirect:/room/all/" + hotelId;
     }
 }

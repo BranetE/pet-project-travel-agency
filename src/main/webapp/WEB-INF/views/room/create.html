@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Room</title>
-</head>
+<head th:replace="fragments :: fragment_head(pageTitle = 'Add Room')">
 <body>
+<div th:replace="fragments :: fragment_navbar"/>
+<div class="container text-center" style="width: 80%">
 <form th:action="@{|/room/add/${hotel_id}|}" th:object="${room}" method="post">
-    Number:
-    <input type="number" th:field="*{number}"/>
-    <small th:if="${#fields.hasErrors('number')}" th:errors="*{number}"/>
+    <div>
+        <h1>Create Room</h1>
+    </div>
+    <div class="form-group row">
+        <label class="col-4 col-form-label">Number: </label>
+        <div class="col-8">
+            <input type="number" th:field="*{number}" class="form-control" require maxlength="2"/>
+            <small th:if="${#fields.hasErrors('number')}" th:errors="*{number}"/>
+        </div>
+    </div>
 
-    <input type="number" th:field="*{capacity}"/>
-    <small th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"/>
+    <div class="form-group row">
+        <label class="col-4 col-form-label">Capacity: </label>
+        <div class="col-8">
+            <input type="number" th:field="*{capacity}" class="form-control" required maxlength="2"/>
+            <small th:if="${#fields.hasErrors('capacity')}" th:errors="*{capacity}"/>
+        </div>
+    </div>
     <br>
 
-    <input type="submit" value="Add"/>
-    <input type="reset" value="Clear"/>
+
+    <input class="btn btn-primary" type="submit" value="Add"/>
+    <input class="btn btn-primary" type="reset" value="Clear"/>
 </form>
+</div>
 </body>
 </html>

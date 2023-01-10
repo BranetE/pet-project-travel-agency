@@ -1,9 +1,11 @@
 package org.example.model;
 
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,12 +27,13 @@ public class Room {
     @NotNull(message = "capacity is required")
     private int capacity;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
-    @OneToMany(mappedBy = "room")
-    private List<Order> orders;
+    @OneToMany(mappedBy = "room", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE})
+    @Fetch(value = FetchMode.SELECT)
+    private List<Order> orders = new ArrayList<>();
 
     public Room() {
     }
@@ -94,5 +97,16 @@ public class Room {
     @Override
     public int hashCode() {
         return Objects.hash(id, number, capacity, hotel);
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", number=" + number +
+                ", capacity=" + capacity +
+                ", hotel=" + hotel +
+                ", orders=" + orders +
+                '}';
     }
 }
