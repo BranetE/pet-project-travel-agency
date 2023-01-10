@@ -17,4 +17,6 @@ public interface UserService {
     List<User> getAllUsers();
 
     Boolean existsByEmail(String email);
+
+    Boolean existsByPhone(String phone);
 }
