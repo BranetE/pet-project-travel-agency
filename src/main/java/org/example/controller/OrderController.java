@@ -32,7 +32,7 @@ public class OrderController {
     UserService userService;
 
     @GetMapping("/{order_id}")
-    @PreAuthorize("@orderServiceImpl.getOrder(#orderId).user.id == #userDetails.id")
+    @PreAuthorize("hasAuthority('ADMIN') or @orderServiceImpl.getOrder(#orderId).user.id == #userDetails.id")
     public String showOrder(@PathVariable("order_id") long orderId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
         Order order = orderService.getOrder(orderId);
         model.addAttribute("order", order);
@@ -41,6 +41,7 @@ public class OrderController {
 
     // for admin
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String showAllOrders(Model model)
     {
         List<Order> orders = orderService.getAllOrders();
