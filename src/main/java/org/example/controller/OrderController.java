@@ -60,7 +60,7 @@ public class OrderController {
                               @Valid @ModelAttribute("order") Order order, BindingResult bindingResult,
                               @AuthenticationPrincipal UserDetailsImpl userDetails){
         if(bindingResult.hasErrors()){
-            return "order/create";
+            return "redirect:/order/book/" + roomId;
         }
         order.setRoom(roomService.getRoom(roomId));
         order.setUser(userService.getUser(userDetails.getId()));
@@ -72,25 +72,30 @@ public class OrderController {
     public String updateOrder(@PathVariable("order_id") long orderId, Model model)
     {
         Order order = orderService.getOrder(orderId);
+        List<String[]> busyDates = orderService.getAllBusyDates(order.getRoom().getId());
+        model.addAttribute("busyDates", busyDates);
         model.addAttribute("order", order);
         return "order/update";
     }
 
     @PostMapping("/{order_id}/update")
-    public String updateOrder(@Valid @ModelAttribute("order") Order order, BindingResult bindingResult)
+    public String updateOrder(@PathVariable("order_id") long orderId, @Valid @ModelAttribute("order") Order order, BindingResult bindingResult)
     {
         if(bindingResult.hasErrors()){
-            return "order/update";
+            return "redirect:/order/" + orderId +"/update";
         }
+        Order oldOrder = orderService.getOrder(orderId);
+        order.setUser(oldOrder.getUser());
+        order.setRoom(oldOrder.getRoom());
         orderService.updateOrder(order);
         return "redirect:/order/"+order.getId();
     }
 
     @GetMapping("/{order_id}/delete")
-    public String deleteOrder(@PathVariable("order_id") long orderId){
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public String deleteOrder(@PathVariable("order_id") long orderId,
+                              @AuthenticationPrincipal UserDetailsImpl userDetails){
         orderService.deleteOrder(orderId);
-        return "redirect:user/" + user.getId() + "/orders";
+        return "redirect:user/" + userDetails.getId() + "/orders";
     }
 
 }

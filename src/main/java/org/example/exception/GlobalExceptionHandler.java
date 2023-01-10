@@ -22,10 +22,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RoomIsNotAvailableException.class)
     public String roomIsBusy(RoomIsNotAvailableException ex, RedirectAttributes redirAttrs){
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.addObject("message", ex.getMessage());
         redirAttrs.addFlashAttribute("message", ex.getMessage());
-        return "redirect:/order/book/" + ex.getRoom().getId();
+        if(ex.getMethod().equals("create")) {
+            return "redirect:/order/book/" + ex.getOrder().getRoom().getId();
+        } else{
+            return "redirect:/order/" + ex.getOrder().getId() + "/update";
+        }
     }
 
     @ExceptionHandler(AlreadyExistsException.class)

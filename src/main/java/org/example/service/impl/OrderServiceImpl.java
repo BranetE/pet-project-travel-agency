@@ -22,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
 
         if(checkIfBusy(order))
         {
-            throw new RoomIsNotAvailableException("Room is not available for these dates", order.getRoom());
+            throw new RoomIsNotAvailableException("Room is not available for these dates", order, "create");
         }else {
             orderDAO.create(order);
         }
@@ -30,7 +30,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrder(Order order) {
-        orderDAO.update(order);
+
+        if(checkIfBusy(order))
+        {
+            throw new RoomIsNotAvailableException("Room is not available for these dates", order, "update");
+        }else {
+            orderDAO.update(order);
+        }
     }
 
     @Override
@@ -59,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
         Room room = order.getRoom();
 
         List<Order> orders = getAllOrders();
-        orders = orders.stream().filter(o -> o.getRoom().equals(room)).toList();
+        orders = orders.stream().filter(o -> o.getRoom().getId() == room.getId()).toList();
 
         for (Order o: orders) {
             if(

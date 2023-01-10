@@ -4,7 +4,10 @@
 <head th:replace="fragments :: fragment_head(pageTitle = 'Your Order')">
 <body>
 <div th:replace="fragments :: fragment_navbar"/>
-<div class="container text-center" style="width: 80%">
+<div class="container text-center" style="width: 40px">
+    <div>
+        <h1>Your order</h1>
+    </div>
     <div th:object="${order}">
         <table class="table table-hover">
             <tr>
@@ -28,8 +31,8 @@
                 <td th:text="${order.room.number}"/>
             </tr>
         </table>
-        <button class="btn btn-info" th:href="@{|/${order.id}/update|}">Edit</button>
-        <button class="btn btn-danger" th:href="@{|/${order.id}/delete|}">Delete</button>
+        <a class="btn btn-info" th:href="@{|/order/${order.id}/update|}">Edit</a>
+        <a class="btn btn-danger" th:href="@{|/order/${order.id}/delete|}">Delete</a>
     </div>
 </div>
 </body>

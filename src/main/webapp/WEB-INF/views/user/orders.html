@@ -17,8 +17,8 @@
     </tr>
     <tr th:each="order, iStat: ${orders}">
         <td th:text="${order.id}"/>
-        <td th:text="${order.room.hotel}"/>
-        <td th:text="${order.room.number}"/>
+        <td th:text="${order.order.hotel}"/>
+        <td th:text="${order.order.number}"/>
         <td th:text="${order.startTime}"/>
         <td th:text="${order.endTime}"/>
         <td>

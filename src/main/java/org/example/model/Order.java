@@ -101,4 +101,15 @@ public class Order {
     public int hashCode() {
         return Objects.hash(id, startTime, endTime, user, room);
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", user=" + user +
+                ", room=" + room +
+                '}';
+    }
 }
