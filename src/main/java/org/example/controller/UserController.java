@@ -1,10 +1,13 @@
 package org.example.controller;
 
+import org.example.dto.impl.UserDetailsImpl;
 import org.example.model.Order;
 import org.example.model.User;
 import org.example.service.OrderService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,7 @@ public class UserController {
 
     //only for admin
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String getAllUsers(Model model){
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
@@ -32,7 +36,8 @@ public class UserController {
     }
 
     @GetMapping("/{user_id}")
-    public String showUserInfo(@PathVariable("user_id") long userId, Model model)
+    @PreAuthorize("hasAuthority('ADMIN') or @userServiceImpl.getUser(#userId).id == #userDetails.id")
+    public String showUserInfo(@PathVariable("user_id") long userId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         User user = userService.getUser(userId);
         model.addAttribute("user", user);
@@ -40,6 +45,7 @@ public class UserController {
     }
 
     @GetMapping("/{user_id}/orders")
+    @PreAuthorize("hasAuthority('ADMIN') or @userServiceImpl.getUser(#userId).id == #userDetails.id")
     public String showOrdersByUser(@PathVariable("user_id") long userId, Model model)
     {
         User user = userService.getUser(userId);
@@ -66,6 +72,7 @@ public class UserController {
     }
 
     @GetMapping("/{user_id}/update")
+    @PreAuthorize("hasAuthority('ADMIN') or @userServiceImpl.getUser(#userId).id == #userDetails.id")
     public String updateUser(@PathVariable("user_id") long userId, Model model){
         User user = userService.getUser(userId);
         model.addAttribute("user", user);
@@ -83,6 +90,7 @@ public class UserController {
     }
 
     @GetMapping("/{user_id}/delete")
+    @PreAuthorize("hasAuthority('ADMIN') or @userServiceImpl.getUser(#userId).id == #userDetails.id")
     public String deleteUser(@PathVariable("user_id") long userId)
     {
         userService.deleteUser(userId);

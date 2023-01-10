@@ -1,24 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Order</title>
-</head>
+<head th:replace="fragments :: fragment_head(pageTitle = 'Book Room')">
 <body>
+<div th:replace="fragments :: fragment_navbar"/>
+<div class="container text-center" style="width: 50%">
     <form th:action="@{|/order/book/${room_id}|}" th:object="${order}" method="post">
-        Check in date:
-        <input type="date" th:field="*{startTime}"/>
-        <small th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"/>
+        <div>
+            <h1>Book a Room</h1>
+        </div>
 
-        Check out date:
-        <input type="date" th:field="*{endTime}"/>
-        <small th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}"/>
+        <div class="alert alert-danger" role="alert" th:text="${message}" th:if="${message}"></div>
 
+        <div class="form-group row">
+            <label class="col-4 col-form-label">Check in date:</label>
+            <div class="col-8">
+                <input type="date" class="form-control" th:field="*{startTime}" maxlength="10px"/>
+                <small th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-4 col-form-label">Check out date:</label>
+            <div class="col-8">
+                <input type="date" class="form-control" th:field="*{endTime}"/>
+                <small th:if="${#fields.hasErrors('endTime')}" th:errors="*{endTime}"/>
+            </div>
+        </div>
+        <br>
+        <input type="submit" class="btn btn-primary" value="Book"/>
+        <input type="reset" class="btn btn-primary" value="Clear"/>
         <br>
 
-        <input type="submit" value="Book"/>
-        <input type="reset" value="Clear"/>
+        <div>
+            <h2>This Room Is Booked</h2>
+        </div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>From</th>
+                <th>To</th>
+            </tr>
+            <tr th:each="date : ${busyDates}">
+                <td th:text="${date[0]}"/>
+                <td th:text="${date[1]}"/>
+            </tr>
+        </table>
+
     </form>
+</div>
 </body>
 </html>

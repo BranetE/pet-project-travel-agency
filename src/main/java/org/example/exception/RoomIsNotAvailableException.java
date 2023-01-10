@@ -1,28 +1,29 @@
 package org.example.exception;
 
-import org.example.model.Room;
+import org.example.model.Order;
 
 public class RoomIsNotAvailableException extends RuntimeException{
 
-    private Room room;
+    private Order order;
 
-    public RoomIsNotAvailableException() {
-    }
+    private String method;
 
     public RoomIsNotAvailableException(String message) {
         super(message);
     }
 
-    public RoomIsNotAvailableException(String message, Room room) {
-        this(message);
-        setRoom(room);
+    public RoomIsNotAvailableException(String message, Order order, String method) {
+        super(message);
+        this.order = order;
+        this.method = method;
     }
 
-    public Room getRoom() {
-        return room;
+    public String getMethod() {
+        return method;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public Order getOrder() {
+        return order;
     }
+
 }

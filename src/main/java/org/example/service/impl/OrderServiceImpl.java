@@ -19,11 +19,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void createOrder(Order order) {
-        Room room = order.getRoom();
 
-        if(checkIfBusy(order,room))
+        if(checkIfBusy(order))
         {
-            throw new RoomIsNotAvailableException("Room is not available for these dates", room);
+            throw new RoomIsNotAvailableException("Room is not available for these dates", order, "create");
         }else {
             orderDAO.create(order);
         }
@@ -31,7 +30,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrder(Order order) {
-        orderDAO.update(order);
+
+        if(checkIfBusy(order))
+        {
+            throw new RoomIsNotAvailableException("Room is not available for these dates", order, "update");
+        }else {
+            orderDAO.update(order);
+        }
     }
 
     @Override
@@ -54,16 +59,19 @@ public class OrderServiceImpl implements OrderService {
         return orderDAO.findAllByUser(user);
     }
 
-    private boolean checkIfBusy(Order order, Room room){
+    public List<String[]> getAllBusyDates(long roomId){return orderDAO.findAllBusyDates(roomId);}
+
+    private boolean checkIfBusy(Order order){
+        Room room = order.getRoom();
 
         List<Order> orders = getAllOrders();
-        orders.stream().filter(o -> o.getRoom().equals(room)).toList();
+        orders = orders.stream().filter(o -> o.getRoom().getId() == room.getId()).toList();
 
-        for (Order o:orders) {
-            if(order.getStartTime().isAfter(o.getStartTime()) &&
-                    order.getStartTime().isBefore(o.getEndTime()) &&
-                    order.getEndTime().isAfter(o.getStartTime()) &&
-                    order.getEndTime().isBefore(o.getEndTime()))
+        for (Order o: orders) {
+            if(
+                    (order.getStartTime().isAfter(o.getStartTime()) && order.getStartTime().isBefore(o.getEndTime())) ||
+                    (order.getEndTime().isAfter(o.getStartTime()) && order.getEndTime().isBefore(o.getEndTime()))
+            )
             {
                 return true;
             }

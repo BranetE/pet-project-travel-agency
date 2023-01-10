@@ -2,7 +2,6 @@ package org.example.dao.impl;
 
 import org.example.dao.OrderDAO;
 import org.example.model.Order;
-import org.example.model.Room;
 import org.example.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository
@@ -63,6 +62,14 @@ public class OrderDAOImpl implements OrderDAO {
         Session session = sessionFactory.getCurrentSession();
         List<Order> orders = session.createQuery("from Order o where o.user=user").list();
         return orders;
+    }
+
+    @Transactional
+    public List<String[]> findAllBusyDates(long roomId){
+        Session session = sessionFactory.getCurrentSession();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
+        List<String[]> dates = session.createQuery("select startTime, endTime from Order where room.id=:roomId").setParameter("roomId", roomId).list();
+        return dates;
     }
 
 }
