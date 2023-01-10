@@ -6,6 +6,7 @@ import org.example.dao.UserDAO;
 import org.example.model.ERole;
 import org.example.model.Role;
 import org.example.model.User;
+import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,9 +20,14 @@ import java.util.Set;
 @Controller
 public class AuthController {
     @Autowired
-    UserDAO userDAO;
+    UserService userService;
     @Autowired
     RoleDAO roleDAO;
+
+    @GetMapping("/login")
+    public String login(){
+        return "user/login";
+    }
     @GetMapping("/register")
     public String register(Model model){
         model.addAttribute("user", new User());
@@ -30,10 +36,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(User user) throws AlreadyExistsException {
-        if(userDAO.existsByEmail(user.getEmail())){
+        if(userService.existsByEmail(user.getEmail())){
             throw new AlreadyExistsException("User already exists with this email ");
         }
-        if(userDAO.existsByPhone(user.getPhone())){
+        if(userService.existsByPhone(user.getPhone())){
             throw new AlreadyExistsException("User already exists with this phone ");
         }
 
@@ -50,7 +56,7 @@ public class AuthController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        userDAO.create(user);
+        userService.createUser(user);
 
         return "redirect:/login";
     }
