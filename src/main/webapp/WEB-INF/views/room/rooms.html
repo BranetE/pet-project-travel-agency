@@ -26,7 +26,7 @@
             <td th:text="${room.capacity}"/>
             <td th:text="${room.hotel.name}"/>
             <td>
-                <a th:href="@{|/order/book/${room.id}|}">Book</a>
+                <a class="btn btn-primary" th:href="@{|/order/book/${room.id}|}">Book</a>
             </td>
             <td sec:authorize="hasAuthority('ADMIN')">
                 <a class="btn btn-info" th:href="@{|/room/${room.id}/update|}">Edit</a>

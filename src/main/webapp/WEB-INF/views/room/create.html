@@ -5,7 +5,15 @@
 <body>
 <div th:replace="fragments :: fragment_navbar"/>
 <div class="container text-center" style="width: 80%">
-<form th:action="@{|/room/add/${hotel_id}|}" th:object="${room}" method="post">
+
+    <div>
+        <h1>Add Room</h1>
+    </div>
+
+    <div class="alert alert-danger" role="alert" th:text="${message}" th:if="${message}"></div>
+
+
+    <form th:action="@{|/room/add/${hotel_id}|}" th:object="${room}" method="post">
     <div>
         <h1>Create Room</h1>
     </div>

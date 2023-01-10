@@ -4,6 +4,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +21,13 @@ public class Room {
 
     @Column(name = "number", nullable = false)
     @NotNull(message = "number is required")
+    @Min(value = 0, message = "must be more than 0")
     private long number;
 
     @Column(name = "capacity")
 
     @NotNull(message = "capacity is required")
+    @Min(value = 0, message = "must be more than 0")
     private int capacity;
 
     @ManyToOne

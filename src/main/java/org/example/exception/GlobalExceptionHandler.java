@@ -30,6 +30,16 @@ public class GlobalExceptionHandler {
         }
     }
 
+    @ExceptionHandler(RoomWithTheSameNumberExistsException.class)
+    public String roomIsBusy(RoomWithTheSameNumberExistsException ex, RedirectAttributes redirAttrs){
+        redirAttrs.addFlashAttribute("message", ex.getMessage());
+        if(ex.getMethod().equals("create")) {
+            return "redirect:/room/add/" + ex.getRoom().getHotel().getId();
+        } else{
+            return "redirect:/room/" + ex.getRoom().getId() + "/update";
+        }
+    }
+
     @ExceptionHandler(AlreadyExistsException.class)
     public ModelAndView userAlreadyExists(AlreadyExistsException ex){
         ModelAndView modelAndView = new ModelAndView("error");

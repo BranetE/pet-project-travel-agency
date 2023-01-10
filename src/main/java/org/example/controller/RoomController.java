@@ -67,7 +67,6 @@ public class RoomController {
         Room oldRoom = roomService.getRoom(roomId);
         room.setHotel(oldRoom.getHotel());
         room.setOrders(oldRoom.getOrders());
-//        System.out.println(room.toString());
         long hotelId = room.getHotel().getId();
         if(bindingResult.hasErrors()){
             return "room/update";
