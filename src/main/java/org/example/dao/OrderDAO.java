@@ -18,4 +18,6 @@ public interface OrderDAO {
     List<Order> findAll();
 
     List<Order> findAllByUser(User user);
+
+    List<String[]> findAllBusyDates(long roomId);
 }

@@ -17,4 +17,6 @@ public interface OrderService {
     List<Order> getAllOrders();
 
     List<Order> getAllOrdersByUser(User user);
+
+    List<String[]> getAllBusyDates(long roomId);
 }

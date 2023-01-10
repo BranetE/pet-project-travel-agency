@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:td="http://www.tdymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Order</title>
-</head>
+<head th:replace="fragments :: fragment_head(pageTitle = 'Your Order')">
 <body>
-<div th:object="${order}">
-    <table>
-        <tr>
-            <td>Id</td>
-            <td>Check in date</td>
-            <td>Check out date</td>
-            <td>Room</td>
-        </tr>
-        <tr>
-            <td th:text="${order.id}"/>
-            <td th:text="${order.startTime}"/>
-            <td th:text="${order.endTime}"/>
-            <td th:text="${order.room.number}"/>
-        </tr>
-    </table>
-    <button th:href="@{|/${order.id}/update|}">Edit</button>
-    <button th:href="@{|/${order.id}/delete|}">Delete</button>
+<div th:replace="fragments :: fragment_navbar"/>
+<div class="container text-center" style="width: 350px">
+    <div>
+        <h1>Your order</h1>
+    </div>
+    <div th:object="${order}">
+        <table class="table table-hover">
+            <tr>
+                <th scope="row">Id</th>
+                <td th:text="${order.id}"/>
+            </tr>
+            <tr>
+                <th scope="row">Check in date</th>
+                <td th:text="${order.startTime}"/>
+            </tr>
+            <tr>
+                <th scope="row">Check out date</th>
+                <td th:text="${order.room.hotel.name}" />
+            </tr>
+            <tr>
+                <th scope="row">Hotel</th>
+                <td th:text="${order.endTime}"/>
+            </tr>
+            <tr>
+                <th scope="row">Room</th>
+                <td th:text="${order.room.number}"/>
+            </tr>
+        </table>
+        <a class="btn btn-info" th:href="@{|/order/${order.id}/update|}">Edit</a>
+        <a class="btn btn-danger" th:href="@{|/order/${order.id}/delete|}">Delete</a>
+    </div>
 </div>
 </body>
 </html>

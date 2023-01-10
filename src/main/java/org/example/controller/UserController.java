@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.impl.UserDetailsImpl;
 import org.example.model.Order;
 import org.example.model.User;
 import org.example.service.OrderService;
@@ -45,6 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/{user_id}/orders")
+    @PreAuthorize("hasAuthority('ADMIN') or @userServiceImpl.getUser(#userId).id == #userDetails.id")
     public String showOrdersByUser(@PathVariable("user_id") long userId, Model model)
     {
         User user = userService.getUser(userId);

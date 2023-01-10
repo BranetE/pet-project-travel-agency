@@ -40,7 +40,11 @@ public class UserDetailsImpl implements UserDetails {
         );
     }
 
-    public Long getId(){return id;}
+
+    public Long getId() {
+        return id;
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

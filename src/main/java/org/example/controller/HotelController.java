@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.model.Hotel;
 import org.example.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ public class HotelController {
     }
 
     @GetMapping("/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String createHotel(Model model){
         Hotel hotel = new Hotel();
         model.addAttribute("hotel", hotel);
@@ -42,6 +44,7 @@ public class HotelController {
     }
 
     @GetMapping("/{hotel_id}/update")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String updateHotel(@PathVariable("hotel_id") long hotelId, Model model)
     {
         Hotel hotel = hotelService.getHotel(hotelId);
@@ -59,6 +62,7 @@ public class HotelController {
     }
 
     @GetMapping("/{hotel_id}/delete")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String deleteHotel(@PathVariable("hotel_id") long hotelId){
         hotelService.deleteHotel(hotelId);
         return "redirect:/hotel/all";
