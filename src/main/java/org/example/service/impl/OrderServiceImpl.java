@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import org.example.dao.OrderDAO;
+import org.example.exception.NullEntityReferenceException;
 import org.example.exception.RoomIsNotAvailableException;
 import org.example.model.Order;
 import org.example.model.Room;
@@ -19,7 +20,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void createOrder(Order order) {
-
+        if(order == null){
+            throw new NullEntityReferenceException("Entity order is null in create method");
+        }
         if(checkIfBusy(order))
         {
             throw new RoomIsNotAvailableException("Room is not available for these dates", order, "create");
@@ -30,7 +33,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrder(Order order) {
-
+        if(order == null){
+            throw new NullEntityReferenceException("Entity order is null in update method");
+        }
         if(checkIfBusy(order))
         {
             throw new RoomIsNotAvailableException("Room is not available for these dates", order, "update");
@@ -56,12 +61,19 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAllOrdersByUser(User user) {
+        if(user == null){
+            throw new NullEntityReferenceException("Entity user is null in getAllOrdersByUser method");
+        }
         return orderDAO.findAllByUser(user);
     }
 
     public List<String[]> getAllBusyDates(long roomId){return orderDAO.findAllBusyDates(roomId);}
 
     private boolean checkIfBusy(Order order){
+        if(order == null){
+            throw new NullEntityReferenceException("Entity order is null in checkIfBusy method");
+        }
+
         Room room = order.getRoom();
 
         List<Order> orders = getAllOrders();

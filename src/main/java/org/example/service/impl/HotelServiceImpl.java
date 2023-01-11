@@ -1,6 +1,8 @@
 package org.example.service.impl;
 
+import com.mchange.util.AlreadyExistsException;
 import org.example.dao.HotelDAO;
+import org.example.exception.NullEntityReferenceException;
 import org.example.model.Hotel;
 import org.example.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,26 @@ public class HotelServiceImpl implements HotelService {
     HotelDAO hotelDAO;
 
     @Override
-    public void createHotel(Hotel hotel) {
+    public void createHotel(Hotel hotel) throws AlreadyExistsException{
+        if(hotel == null){
+            throw new NullEntityReferenceException("Entity hotel is null in create method");
+        }
+        if(hotelDAO.findHotelsByName(hotel.getName()).size() != 0){
+            List<Hotel> hotels = hotelDAO.findHotelsByName(hotel.getName());
+            for (Hotel hotel1 : hotels){
+                if(hotel1.getCountry().equals(hotel.getCountry())){
+                    throw new AlreadyExistsException("Hotel with same name exists in this country");
+                }
+            }
+        }
         hotelDAO.createHotel(hotel);
     }
 
     @Override
     public void updateHotel(Hotel hotel) {
+        if(hotel == null){
+            throw new NullEntityReferenceException("Entity hotel is null in update method");
+        }
         hotelDAO.updateHotel(hotel);
     }
 

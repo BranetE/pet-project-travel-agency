@@ -40,8 +40,15 @@ public class GlobalExceptionHandler {
         }
     }
 
+    @ExceptionHandler(NullEntityReferenceException.class)
+    public ModelAndView nullEntityReference(NullEntityReferenceException ex){
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("message", ex.getMessage());
+        return modelAndView;
+    }
+
     @ExceptionHandler(AlreadyExistsException.class)
-    public ModelAndView userAlreadyExists(AlreadyExistsException ex){
+    public ModelAndView alreadyExists(AlreadyExistsException ex){
         ModelAndView modelAndView = new ModelAndView("error");
         modelAndView.addObject("message", ex.getMessage());
         return modelAndView;
