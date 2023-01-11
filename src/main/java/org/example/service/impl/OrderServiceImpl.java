@@ -77,7 +77,11 @@ public class OrderServiceImpl implements OrderService {
         Room room = order.getRoom();
 
         List<Order> orders = getAllOrders();
-        orders = orders.stream().filter(o -> o.getRoom().getId() == room.getId()).toList();
+        orders.stream().forEach( o -> System.out.println(o.getId()));
+        orders = orders.stream()
+                .filter(o -> o.getId() != order.getId())
+                .filter(o -> o.getRoom().getId() == room.getId())
+                .toList();
 
         for (Order o: orders) {
             if(
