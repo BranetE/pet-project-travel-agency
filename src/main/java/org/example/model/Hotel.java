@@ -15,7 +15,7 @@ public class Hotel {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false)
     @NotBlank(message = "name is required")
     private String name;
 

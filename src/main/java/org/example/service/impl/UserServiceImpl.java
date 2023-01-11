@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import org.example.dao.UserDAO;
+import org.example.exception.NullEntityReferenceException;
 import org.example.model.User;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) {
+        if(user == null){
+            throw new NullEntityReferenceException("Entity user is null in create method");
+        }
         userDAO.create(user);
     }
 
     @Override
     public void updateUser(User user) {
+        if(user == null){
+            throw new NullEntityReferenceException("Entity user is null in update method");
+        }
         userDAO.update(user);
     }
 

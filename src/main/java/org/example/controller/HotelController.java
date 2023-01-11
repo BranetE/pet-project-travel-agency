@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import com.mchange.util.AlreadyExistsException;
 import org.example.model.Hotel;
 import org.example.service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class HotelController {
     }
 
     @PostMapping("/add")
-    public String createHotel(@Valid @ModelAttribute("hotel") Hotel hotel, BindingResult bindingResult){
+    public String createHotel(@Valid @ModelAttribute("hotel") Hotel hotel, BindingResult bindingResult) throws AlreadyExistsException {
         if(bindingResult.hasErrors()){
             return "hotel/create";
         }

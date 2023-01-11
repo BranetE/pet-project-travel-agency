@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import org.example.dao.RoomDAO;
+import org.example.exception.NullEntityReferenceException;
 import org.example.exception.RoomWithTheSameNumberExistsException;
 import org.example.model.Hotel;
 import org.example.model.Room;
@@ -18,6 +19,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void createRoom(Room room) {
+        if(room == null){
+            throw new NullEntityReferenceException("Entity room is null in create method");
+        }
         if(checkIfRoomAlreadyExists(room)){
             throw new RoomWithTheSameNumberExistsException("Room with the same number already exists", room, "create");
         }
@@ -27,6 +31,9 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public void updateRoom(Room room) {
+        if(room == null){
+            throw new NullEntityReferenceException("Entity room is null in update method");
+        }
         if(checkIfRoomAlreadyExists(room)){
             throw new RoomWithTheSameNumberExistsException("Room with the same number already exists", room, "update");
         }
@@ -51,10 +58,16 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<Room> getAllRoomsByHotel(Hotel hotel) {
+        if(hotel == null){
+            throw new NullEntityReferenceException("Entity hotel is null in getAllRoomsHotel method");
+        }
         return roomDAO.findAllByHotel(hotel);
     }
 
     private boolean checkIfRoomAlreadyExists(Room room){
+        if(room == null){
+            throw new NullEntityReferenceException("Entity room is null in checkIfRoomAlreadyExists method");
+        }
         List<Long> numbers = getAllRoomsByHotel(room.getHotel()).stream()
                 .filter(r -> r.getId() != room.getId())
                 .map(r -> r.getNumber())
