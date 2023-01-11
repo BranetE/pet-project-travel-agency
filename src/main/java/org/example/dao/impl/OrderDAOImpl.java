@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -69,6 +70,7 @@ public class OrderDAOImpl implements OrderDAO {
         Session session = sessionFactory.getCurrentSession();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
         List<String[]> dates = session.createQuery("select startTime, endTime from Order where room.id=:roomId").setParameter("roomId", roomId).list();
+
         return dates;
     }
 

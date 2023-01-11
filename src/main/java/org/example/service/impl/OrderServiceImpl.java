@@ -70,7 +70,9 @@ public class OrderServiceImpl implements OrderService {
         for (Order o: orders) {
             if(
                     (order.getStartTime().isAfter(o.getStartTime()) && order.getStartTime().isBefore(o.getEndTime())) ||
-                    (order.getEndTime().isAfter(o.getStartTime()) && order.getEndTime().isBefore(o.getEndTime()))
+                    (order.getEndTime().isAfter(o.getStartTime()) && order.getEndTime().isBefore(o.getEndTime())) ||
+                            order.getStartTime().isEqual(o.getStartTime()) || order.getStartTime().isEqual(o.getEndTime()) ||
+                            order.getEndTime().isEqual(o.getStartTime()) || order.getEndTime().isEqual(o.getEndTime())
             )
             {
                 return true;
