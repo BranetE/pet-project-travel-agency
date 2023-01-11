@@ -1,33 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Orders</title>
-</head>
+<head th:replace="fragments :: fragment_head(pageTitle = 'Users')">
 <body>
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Hotel</th>
-        <th>Room</th>
-        <th>Check in time</th>
-        <th>Check out time</th>
-        <th colspan="2">Operations</th>
-    </tr>
-    <tr th:each="order, iStat: ${orders}">
-        <td th:text="${order.id}"/>
-        <td th:text="${order.order.hotel}"/>
-        <td th:text="${order.order.number}"/>
-        <td th:text="${order.startTime}"/>
-        <td th:text="${order.endTime}"/>
-        <td>
-            <a th:href="@{|/order/${order.id}/update|}">Edit</a>
-        </td>
-        <td>
-            <a th:href="@{|/order/${order.id}/delete|}">Delete</a>
-        </td>
-    </tr>
-</table>
+<div th:replace="fragments :: fragment_navbar"/>
+<div class="container text-center" style="width: 80%">
+    <th:block th:each="order : ${orders}">
+        <div class="card" style="width: 18rem">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${order.room.hotel.name}"/>
+                <p class="card-text" th:text="${order.room.hotel.country}"/>
+            </div>
+        </div>
+    </th:block>
+</div>
 </body>
 </html>
