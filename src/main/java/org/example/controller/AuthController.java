@@ -57,6 +57,7 @@ public class AuthController {
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
+
         String password = user.getPassword();
         String email = user.getEmail();
 
