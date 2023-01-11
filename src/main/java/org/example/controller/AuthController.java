@@ -1,13 +1,16 @@
 package org.example.controller;
 
 import com.mchange.util.AlreadyExistsException;
-import org.example.dao.RoleDAO;
-import org.example.dao.UserDAO;
 import org.example.model.ERole;
 import org.example.model.Role;
 import org.example.model.User;
+import org.example.service.RoleService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +25,9 @@ public class AuthController {
     @Autowired
     UserService userService;
     @Autowired
-    RoleDAO roleDAO;
+    RoleService roleService;
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     @GetMapping("/login")
     public String login(){
@@ -43,22 +48,29 @@ public class AuthController {
             throw new AlreadyExistsException("User already exists with this phone ");
         }
 
-        Role role = roleDAO.findByName(ERole.USER);
+        Role role = roleService.find(ERole.USER);
         if(role == null){
             role = new Role();
             role.setName(ERole.USER);
-            roleDAO.create(role);
+            roleService.create(role);
         }
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         user.setRoles(roles);
+        String password = user.getPassword();
+        String email = user.getEmail();
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userService.createUser(user);
 
-        return "redirect:/login";
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, password);
+        Authentication authenticatedUser = authenticationManager.authenticate(token);
+
+        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+
+        return "redirect:/";
     }
 
 }

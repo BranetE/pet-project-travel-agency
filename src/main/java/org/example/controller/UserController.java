@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.impl.UserDetailsImpl;
 import org.example.model.Order;
 import org.example.model.User;
 import org.example.service.OrderService;
@@ -7,6 +8,7 @@ import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -82,7 +84,12 @@ public class UserController {
     public String deleteUser(@PathVariable("user_id") long userId)
     {
         userService.deleteUser(userId);
-        SecurityContextHolder.getContext().setAuthentication(null);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(userDetails.getId() == userId){
+            SecurityContextHolder.getContext().setAuthentication(null);
+        }
         return "redirect:/";
     }
 }
