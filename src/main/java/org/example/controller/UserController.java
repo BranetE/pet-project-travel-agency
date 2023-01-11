@@ -7,6 +7,7 @@ import org.example.service.OrderService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -48,7 +49,7 @@ public class UserController {
 
     @GetMapping("/{user_id}/orders")
     @PreAuthorize("hasAuthority('ADMIN') or @userServiceImpl.getUser(#userId).id == #userDetails.id")
-    public String showOrdersByUser(@PathVariable("user_id") long userId, Model model)
+    public String showOrdersByUser(@PathVariable("user_id") long userId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         User user = userService.getUser(userId);
         List<Order> orders = orderService.getAllOrdersByUser(user);

@@ -8,14 +8,19 @@ import org.example.service.RoomService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -97,10 +102,16 @@ public class OrderController {
 
     @GetMapping("/{order_id}/delete")
     @PreAuthorize("hasAuthority('ADMIN') or @orderServiceImpl.getOrder(#orderId).user.id == #userDetails.id")
-    public String deleteOrder(@PathVariable("order_id") long orderId,
-                              @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public String deleteOrder(@PathVariable("order_id") long orderId, @AuthenticationPrincipal UserDetailsImpl userDetails,
+                              SecurityContextHolderAwareRequestWrapper request)
+    {
         orderService.deleteOrder(orderId);
-        return "redirect:user/" + userDetails.getId() + "/orders";
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        if(authorities.contains(new SimpleGrantedAuthority("ADMIN"))){
+            return "redirect:/order/all";
+        }else {
+            return "redirect:/user/" + userDetails.getId() + "/orders";
+        }
     }
 
 }

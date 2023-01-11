@@ -61,7 +61,7 @@ public class OrderDAOImpl implements OrderDAO {
     @Transactional
     public List<Order> findAllByUser(User user) {
         Session session = sessionFactory.getCurrentSession();
-        List<Order> orders = session.createQuery("from Order o where o.user=user").list();
+        List<Order> orders = session.createQuery("from Order o where o.user=:user").setParameter("user", user).list();
         return orders;
     }
 
@@ -70,7 +70,6 @@ public class OrderDAOImpl implements OrderDAO {
         Session session = sessionFactory.getCurrentSession();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
         List<String[]> dates = session.createQuery("select startTime, endTime from Order where room.id=:roomId").setParameter("roomId", roomId).list();
-
         return dates;
     }
 

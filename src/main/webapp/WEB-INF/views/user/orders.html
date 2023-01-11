@@ -5,14 +5,38 @@
 <body>
 <div th:replace="fragments :: fragment_navbar"/>
 <div class="container text-center" style="width: 80%">
-    <th:block th:each="order : ${orders}">
-        <div class="card" style="width: 18rem">
-            <div class="card-body">
-                <h5 class="card-title" th:text="${order.room.hotel.name}"/>
-                <p class="card-text" th:text="${order.room.hotel.country}"/>
+
+    <br>
+
+
+    <div>
+        <h1>Orders</h1>
+    </div>
+
+    <br>
+
+    <div class="row d-flex justify-content-center">
+        <th:block th:each="order : ${orders}">
+            <div class="card" style="width: 18rem; margin: 5px">
+                <div class="card-header">
+                    <label th:text="${order.id}"/>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${order.room.hotel.name}"/>
+                    <p class="card-text" th:text="${order.room.hotel.country}"/>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <small>Check in:</small>
+                    <li class="list-group-item" th:text="${order.startTime}"/>
+                    <small>Check out:</small>
+                    <li class="list-group-item" th:text="${order.endTime}"/>
+                </ul>
+                <div class="card-body">
+                    <a th:href="@{|/order/${order.id}|}" class="card-link">View</a>
+                </div>
             </div>
-        </div>
-    </th:block>
+        </th:block>
+    </div>
 </div>
 </body>
 </html>
