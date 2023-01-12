@@ -31,12 +31,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(RoomWithTheSameNumberExistsException.class)
-    public String roomIsBusy(RoomWithTheSameNumberExistsException ex, RedirectAttributes redirAttrs){
+    public String roomsHaveTheSameNumber(RoomWithTheSameNumberExistsException ex, RedirectAttributes redirAttrs){
         redirAttrs.addFlashAttribute("message", ex.getMessage());
         if(ex.getMethod().equals("create")) {
             return "redirect:/room/add/" + ex.getRoom().getHotel().getId();
         } else{
             return "redirect:/room/" + ex.getRoom().getId() + "/update";
+        }
+    }
+
+    @ExceptionHandler(InappropriateDateException.class)
+    public String inappropriateDate(InappropriateDateException ex, RedirectAttributes redirAttrs){
+        redirAttrs.addFlashAttribute("message", ex.getMessage());
+        if(ex.getMethod().equals("create")) {
+            return "redirect:/order/book/" + ex.getOrder().getRoom().getId();
+        } else{
+            return "redirect:/order/" + ex.getOrder().getId() + "/update";
         }
     }
 

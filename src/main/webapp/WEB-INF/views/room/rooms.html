@@ -11,31 +11,49 @@
         <h1>Rooms</h1>
     </div>
 
-    <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
-        <tr>
-            <th>Number</th>
-            <th>Capacity</th>
-            <th>Hotel</th>
-            <th>Book</th>
-            <th sec:authorize="hasAuthority('ADMIN')" colspan="2">Operations</th>
-        </tr>
-        </thead>
-        <tr th:each="room, iStat: ${rooms}">
-            <td th:text="${room.number}"/>
-            <td th:text="${room.capacity}"/>
-            <td th:text="${room.hotel.name}"/>
-            <td>
-                <a class="btn btn-primary" th:href="@{|/order/book/${room.id}|}">Book</a>
-            </td>
-            <td sec:authorize="hasAuthority('ADMIN')">
-                <a class="btn btn-info" th:href="@{|/room/${room.id}/update|}">Edit</a>
-            </td>
-            <td sec:authorize="hasAuthority('ADMIN')">
-                <a class="btn btn-danger" th:href="@{|/room/${room.id}/delete|}">Delete</a>
-            </td>
-        </tr>
-    </table>
+<!--    <table class="table table-striped table-bordered">-->
+<!--        <thead class="thead-dark">-->
+<!--        <tr>-->
+<!--            <th>Number</th>-->
+<!--            <th>Capacity</th>-->
+<!--            <th>Hotel</th>-->
+<!--            <th>Book</th>-->
+<!--            <th sec:authorize="hasAuthority('ADMIN')" colspan="2">Operations</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tr th:each="room, iStat: ${rooms}">-->
+<!--            <td th:text="${room.number}"/>-->
+<!--            <td th:text="${room.capacity}"/>-->
+<!--            <td th:text="${room.hotel.name}"/>-->
+<!--            <td>-->
+<!--                <a class="btn btn-primary" th:href="@{|/order/book/${room.id}|}">Book</a>-->
+<!--            </td>-->
+<!--            <td sec:authorize="hasAuthority('ADMIN')">-->
+<!--                <a class="btn btn-info" th:href="@{|/room/${room.id}/update|}">Edit</a>-->
+<!--            </td>-->
+<!--            <td sec:authorize="hasAuthority('ADMIN')">-->
+<!--                <a class="btn btn-danger" th:href="@{|/room/${room.id}/delete|}">Delete</a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--    </table>-->
+    <div class="row d-flex justify-content-center">
+        <th:block th:each="room : ${rooms}">
+            <div class="card" style="width: 18rem; margin: 5px">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${room.number}"/>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <small>Capacity:</small>
+                    <li class="list-group-item" th:text="${room.capacity}"/>
+                    <li class="list-group-item"><a class="btn btn-primary" th:href="@{|/order/book/${room.id}|}">Book</a></li>
+                    <li class="list-group-item" sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-info" th:href="@{|/room/${room.id}/update|}">Edit</a></li>
+                    <li class="list-group-item" sec:authorize="hasAuthority('ADMIN')"><a class="btn btn-danger" th:href="@{|/room/${room.id}/delete|}">Delete</a></li>
+                </ul>
+            </div>
+        </th:block>
+        <br><br>
+    <a class="btn btn-info" sec:authorize="hasAuthority('ADMIN')" th:href="@{|/room/add/${hotel_id}|}">Add</a>
+    </div>
     <a class="btn btn-info" sec:authorize="hasAuthority('ADMIN')" th:href="@{|/room/add/${hotel_id}|}">Add</a>
 </div>
 </body>

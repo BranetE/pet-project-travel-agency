@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import org.example.dao.OrderDAO;
+import org.example.exception.InappropriateDateException;
 import org.example.exception.NullEntityReferenceException;
 import org.example.exception.RoomIsNotAvailableException;
 import org.example.model.Order;
@@ -10,6 +11,7 @@ import org.example.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -23,6 +25,15 @@ public class OrderServiceImpl implements OrderService {
         if(order == null){
             throw new NullEntityReferenceException("Entity order is null in create method");
         }
+
+        if(order.getStartTime().isAfter(order.getEndTime())){
+            throw new InappropriateDateException("You cannot check out before you check in!", order, "create");
+        }
+
+        if(order.getStartTime().isBefore(LocalDate.now())){
+            throw new InappropriateDateException("You cannot book room for a past date", order, "create");
+        }
+
         if(checkIfBusy(order))
         {
             throw new RoomIsNotAvailableException("Room is not available for these dates", order, "create");
@@ -36,6 +47,15 @@ public class OrderServiceImpl implements OrderService {
         if(order == null){
             throw new NullEntityReferenceException("Entity order is null in update method");
         }
+
+        if(order.getStartTime().isAfter(order.getEndTime())){
+            throw new InappropriateDateException("You cannot check out before you check in!", order, "update");
+        }
+
+        if(order.getStartTime().isBefore(LocalDate.now())){
+            throw new InappropriateDateException("You cannot book room for a past date", order, "update");
+        }
+
         if(checkIfBusy(order))
         {
             throw new RoomIsNotAvailableException("Room is not available for these dates", order, "update");
