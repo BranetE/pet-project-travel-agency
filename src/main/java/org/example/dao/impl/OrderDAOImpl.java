@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 
 @Repository
@@ -66,11 +67,12 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Transactional
-    public List<String[]> findAllBusyDates(long roomId){
+    public List<Order> findAllByRoom(long roomId){
         Session session = sessionFactory.getCurrentSession();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
-        List<String[]> dates = session.createQuery("select startTime, endTime from Order where room.id=:roomId").setParameter("roomId", roomId).list();
-        return dates;
+        List<Order> orders = session.createQuery("from Order where room.id=:roomId").setParameter("roomId", roomId).list();
+        orders= orders.stream().sorted(Comparator.comparing(Order::getStartTime).thenComparing(Order::getEndTime)).toList();
+        return orders;
     }
 
 }

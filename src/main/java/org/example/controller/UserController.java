@@ -1,6 +1,8 @@
 package org.example.controller;
 
+import org.example.dto.OrderDTO;
 import org.example.dto.impl.UserDetailsImpl;
+import org.example.mapper.OrderMapper;
 import org.example.model.Order;
 import org.example.model.User;
 import org.example.service.OrderService;
@@ -52,7 +54,7 @@ public class UserController {
     public String showOrdersByUser(@PathVariable("user_id") long userId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         User user = userService.getUser(userId);
-        List<Order> orders = orderService.getAllOrdersByUser(user);
+        List<OrderDTO> orders = orderService.getAllOrdersByUser(user).stream().map(OrderMapper::convertToDto).toList();
         model.addAttribute("orders", orders);
         return "user/orders";
     }

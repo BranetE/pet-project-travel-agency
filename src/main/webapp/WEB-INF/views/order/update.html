@@ -38,15 +38,19 @@
 
         <br>
 
+        <div>
+            <h2>This Room Is Booked</h2>
+        </div>
+
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
             <tr>
                 <th>From</th>
                 <th>To</th>
             </tr>
-            <tr th:each="date : ${busyDates}">
-                <td th:text="${date[0]}"/>
-                <td th:text="${date[1]}"/>
+            <tr th:each="order : ${busyDates}">
+                <td th:text="${order.startTime}"/>
+                <td th:text="${order.endTime}"/>
             </tr>
         </table>
     </form>

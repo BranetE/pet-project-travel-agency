@@ -1,8 +1,9 @@
 package org.example.controller;
 
+import org.example.dto.OrderDTO;
 import org.example.dto.impl.UserDetailsImpl;
+import org.example.mapper.OrderMapper;
 import org.example.model.Order;
-import org.example.model.User;
 import org.example.service.OrderService;
 import org.example.service.RoomService;
 import org.example.service.UserService;
@@ -11,14 +12,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
@@ -39,7 +38,7 @@ public class OrderController {
     @GetMapping("/{order_id}")
     @PreAuthorize("hasAuthority('ADMIN') or @orderServiceImpl.getOrder(#orderId).user.id == #userDetails.id")
     public String showOrder(@PathVariable("order_id") long orderId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        Order order = orderService.getOrder(orderId);
+        OrderDTO order = OrderMapper.convertToDto(orderService.getOrder(orderId));
         model.addAttribute("order", order);
         return "order/info";
     }
@@ -49,7 +48,7 @@ public class OrderController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public String showAllOrders(Model model)
     {
-        List<Order> orders = orderService.getAllOrders();
+        List<OrderDTO> orders = orderService.getAllOrders().stream().map(OrderMapper::convertToDto).toList();
         model.addAttribute("orders", orders);
         return "user/orders";
     }
@@ -57,9 +56,10 @@ public class OrderController {
     @GetMapping("/book/{room_id}")
     public String createOrder(@PathVariable("room_id") long roomId, Model model){
         Order order = new Order();
-        List<String[]> busyDates = orderService.getAllBusyDates(roomId);
+//        List<String[]> busyDates = orderService.getAllByRoom(roomId);
+        List<OrderDTO> orders = orderService.getAllByRoom(roomId).stream().map(OrderMapper::convertToDto).toList();
         model.addAttribute("order", order);
-        model.addAttribute("busyDates", busyDates);
+        model.addAttribute("busyDates", orders);
         return "order/create";
     }
 
@@ -81,8 +81,8 @@ public class OrderController {
     public String updateOrder(@PathVariable("order_id") long orderId, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         Order order = orderService.getOrder(orderId);
-        List<String[]> busyDates = orderService.getAllBusyDates(order.getRoom().getId());
-        model.addAttribute("busyDates", busyDates);
+        List<OrderDTO> orders = orderService.getAllByRoom(order.getRoom().getId()).stream().map(OrderMapper::convertToDto).toList();
+        model.addAttribute("busyDates", orders);
         model.addAttribute("order", order);
         return "order/update";
     }
