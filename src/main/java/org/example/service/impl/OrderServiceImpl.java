@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
         return orderDAO.findAllByUser(user);
     }
 
-    public List<String[]> getAllBusyDates(long roomId){return orderDAO.findAllBusyDates(roomId);}
+    public List<Order> getAllByRoom(long roomId){return orderDAO.findAllByRoom(roomId);}
 
     private boolean checkIfBusy(Order order){
         if(order == null){
