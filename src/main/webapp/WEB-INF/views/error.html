@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>An error occured</title>
-</head>
+<head th:replace="fragments :: fragment_head(pageTitle = 'Error')">
 <body>
+<div th:replace="fragments :: fragment_navbar"/>
+
+    <br>
 
     <b><p th:align="center" th:text="${statusCode}"></p></b>
 

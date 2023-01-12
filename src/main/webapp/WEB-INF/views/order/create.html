@@ -6,6 +6,7 @@
 <div th:replace="fragments :: fragment_navbar"/>
 <div class="container text-center" style="width: 50%">
     <form th:action="@{|/order/book/${room_id}|}" th:object="${order}" method="post">
+        <br>
         <div>
             <h1>Book a Room</h1>
         </div>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html xmlns:td="http://www.tdymeleaf.org">
 <head th:replace="fragments :: fragment_head(pageTitle = 'Your Order')">
 <body>
 <div th:replace="fragments :: fragment_navbar"/>
 <div class="container text-center" style="width: 350px">
+    <br>
     <div>
         <h1>Your order</h1>
     </div>
@@ -33,6 +34,12 @@
         </table>
         <a class="btn btn-info" th:href="@{|/order/${order.id}/update|}">Edit</a>
         <a class="btn btn-danger" th:href="@{|/order/${order.id}/delete|}">Delete</a>
+
+        <br><br><br>
+
+        <a sec:authorize="hasAuthority('USER')" th:href="@{|/user/${order.user.id}/orders|}">Go to orders</a>
+        <a sec:authorize="hasAuthority('ADMIN')" th:href="@{|/order/all|}">Go to orders</a>
+
     </div>
 </div>
 </body>

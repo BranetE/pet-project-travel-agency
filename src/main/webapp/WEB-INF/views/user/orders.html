@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments :: fragment_head(pageTitle = 'Users')">
 <body>
@@ -29,6 +29,8 @@
                     <li class="list-group-item" th:text="${order.startTime}"/>
                     <small>Check out:</small>
                     <li class="list-group-item" th:text="${order.endTime}"/>
+                    <small sec:authorize="hasAuthority('ADMIN')">User:</small>
+                    <li sec:authorize="hasAuthority('ADMIN')" class="list-group-item" th:text="${order.user.firstName} + ' ' + ${order.user.lastName}"/>
                 </ul>
                 <div class="card-body">
                     <a th:href="@{|/order/${order.id}|}" class="card-link">View</a>

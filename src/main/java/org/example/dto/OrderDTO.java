@@ -1,5 +1,8 @@
 package org.example.dto;
 
+import org.example.model.Room;
+import org.example.model.User;
+
 public class OrderDTO {
 
     long id;
@@ -7,16 +10,16 @@ public class OrderDTO {
     String startTime;
     String endTime;
 
-    long userId;
+    User user;
 
-    long roomId;
+    Room room;
 
-    public OrderDTO(long id, String startTime, String endTime, long userId, long roomId) {
+    public OrderDTO(long id, String startTime, String endTime, User user, Room room) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.userId = userId;
-        this.roomId = roomId;
+        this.user = user;
+        this.room = room;
     }
 
     public String getStartTime() {
@@ -35,12 +38,12 @@ public class OrderDTO {
         this.endTime = endTime;
     }
 
-    public long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public long getId() {
@@ -51,11 +54,11 @@ public class OrderDTO {
         this.id = id;
     }
 
-    public long getRoomId() {
-        return roomId;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRoomId(long roomId) {
-        this.roomId = roomId;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }

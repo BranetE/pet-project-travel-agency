@@ -13,7 +13,7 @@ public class OrderMapper {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd LLLL yyyy");
         String startTime = order.getStartTime().format(formatter);
         String endTime = order.getEndTime().format(formatter);
-        return new OrderDTO(order.getId(), startTime, endTime, order.getUser().getId(), order.getRoom().getId());
+        return new OrderDTO(order.getId(), startTime, endTime, order.getUser(), order.getRoom());
     }
 
     public static Order convertToEntity(OrderDTO orderDTO, User user, Room room){

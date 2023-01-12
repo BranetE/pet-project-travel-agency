@@ -27,7 +27,7 @@ public class Room {
     @Column(name = "capacity")
 
     @NotNull(message = "capacity is required")
-    @Min(value = 0, message = "must be more than 0")
+    @Min(value = 1, message = "must be more than 0")
     private int capacity;
 
     @ManyToOne
